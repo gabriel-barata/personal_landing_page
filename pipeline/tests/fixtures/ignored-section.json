@@ -1,0 +1,11 @@
+[
+  { "text": "ABOUT", "headingLevel": 1, "bullet": false },
+  { "text": "Engineer with 5 years of experience building things.", "headingLevel": 0, "bullet": false },
+  { "text": "EDUCATION", "headingLevel": 1, "bullet": false },
+  { "text": "SOME UNIVERSITY", "headingLevel": 2, "bullet": false },
+  { "text": "EXPERIENCE", "headingLevel": 1, "bullet": false },
+  { "text": "", "headingLevel": 0, "bullet": false },
+  { "text": "ACME CORP\tRemote", "headingLevel": 2, "bullet": false },
+  { "text": "Engineer\t01/2023 - Present", "headingLevel": 0, "bullet": false },
+  { "text": "Did a thing", "headingLevel": 0, "bullet": true }
+]

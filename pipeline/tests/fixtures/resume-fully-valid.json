@@ -1,0 +1,17 @@
+[
+  { "text": "ABOUT", "headingLevel": 1, "bullet": false },
+  { "text": "Engineer with 5 years of experience building things.", "headingLevel": 0, "bullet": false },
+  { "text": "EXPERIENCE", "headingLevel": 1, "bullet": false },
+  { "text": "", "headingLevel": 0, "bullet": false },
+  { "text": "GLOBEX CONSULTING\tLondon, UK", "headingLevel": 2, "bullet": false },
+  { "text": "Senior Engineer | Northwind\t01/2023 - Present", "headingLevel": 0, "bullet": false },
+  { "text": "Led the migration of the legacy platform to a new stack", "headingLevel": 0, "bullet": true },
+  { "text": "Reduced infrastructure costs by 30%", "headingLevel": 0, "bullet": true },
+  { "text": "", "headingLevel": 0, "bullet": false },
+  { "text": "Senior Engineer | Southgate\t06/2021 - 12/2022", "headingLevel": 0, "bullet": false },
+  { "text": "Built the initial version of the client-facing dashboard", "headingLevel": 0, "bullet": true },
+  { "text": "", "headingLevel": 0, "bullet": false },
+  { "text": "ACME CORP\tRemote", "headingLevel": 2, "bullet": false },
+  { "text": "Senior Engineer\t01/2020 - 12/2022", "headingLevel": 0, "bullet": false },
+  { "text": "Owned the platform migration", "headingLevel": 0, "bullet": true }
+]

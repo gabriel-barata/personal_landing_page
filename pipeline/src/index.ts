@@ -1,33 +1,25 @@
-// Entry point for `pnpm --filter pipeline generate`.
-//
-// Current step: fetch the raw Docs API response for the resume Doc and
-// write it to tmp/raw-doc.json for inspection. Parsing into the shared
-// `schema` package's resume shape is a later step (see
-// docs/architecture-decisions.md, decisions 2-8).
+// Entry point for `pnpm --filter pipeline generate` — the composition root
+// (Constitution Principle I): fetch the resume Google Doc, adapt it into
+// the domain's neutral DocLine[], parse/validate it against schema/'s
+// ResumeBody, then either write resume.json or report every way the Doc
+// doesn't fit, per contracts/pipeline-cli.md.
 
-import { mkdirSync, writeFileSync } from "node:fs";
-import { dirname } from "node:path";
-import { google } from "googleapis";
+import { parseResume } from "./domain/parse-resume.js";
+import { docLinesFromResponse } from "./infrastructure/doc-lines.js";
+import { fetchResumeDocument } from "./infrastructure/google-docs-client.js";
+import { writeResume } from "./infrastructure/resume-writer.js";
 
-const { GOOGLE_SERVICE_ACCOUNT_KEY, GOOGLE_DOC_ID } = process.env;
+const document = await fetchResumeDocument();
+const lines = docLinesFromResponse(document);
+const result = parseResume(lines);
 
-if (!GOOGLE_SERVICE_ACCOUNT_KEY || !GOOGLE_DOC_ID) {
-  throw new Error(
-    "Missing GOOGLE_SERVICE_ACCOUNT_KEY or GOOGLE_DOC_ID in the environment.",
-  );
+if (!result.ok) {
+  console.error("Resume Doc does not fit the schema/ data model:");
+  for (const error of result.errors) {
+    console.error(`  ${error.path}: ${error.message}`);
+  }
+  process.exitCode = 1;
+} else {
+  writeResume(result.value);
+  console.log(`Fetched Doc "${document.title}" -> resume.json`);
 }
-
-const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(GOOGLE_SERVICE_ACCOUNT_KEY),
-  scopes: ["https://www.googleapis.com/auth/documents.readonly"],
-});
-
-const docs = google.docs({ version: "v1", auth });
-
-const { data } = await docs.documents.get({ documentId: GOOGLE_DOC_ID });
-
-const outputPath = "tmp/raw-doc.json";
-mkdirSync(dirname(outputPath), { recursive: true });
-writeFileSync(outputPath, JSON.stringify(data, null, 2));
-
-console.log(`Fetched Doc "${data.title}" -> ${outputPath}`);
