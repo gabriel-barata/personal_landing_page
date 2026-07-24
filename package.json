@@ -1,0 +1,16 @@
+{
+  "name": "personal-landing-page",
+  "private": true,
+  "packageManager": "pnpm@11.17.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "generate": "pnpm --filter pipeline generate",
+    "build": "pnpm --recursive --if-present build",
+    "typecheck": "pnpm --recursive --if-present typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
