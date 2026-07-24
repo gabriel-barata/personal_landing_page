@@ -1,0 +1,8 @@
+[
+  { "text": "EXPERIENCE", "headingLevel": 1, "bullet": false },
+  { "text": "", "headingLevel": 0, "bullet": false },
+  { "text": "ACME CORP\tRemote", "headingLevel": 2, "bullet": false },
+  { "text": "Senior Engineer\t01/2023 - 12/2024", "headingLevel": 0, "bullet": false },
+  { "text": "Led the migration of the legacy platform to a new stack", "headingLevel": 0, "bullet": true },
+  { "text": "Reduced infrastructure costs by 30%", "headingLevel": 0, "bullet": true }
+]

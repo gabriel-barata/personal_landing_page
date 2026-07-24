@@ -1,0 +1,15 @@
+[
+  { "text": "EXPERIENCE", "headingLevel": 1, "bullet": false },
+  { "text": "", "headingLevel": 0, "bullet": false },
+  { "text": "FIRST CO\tRemote", "headingLevel": 2, "bullet": false },
+  { "text": "Engineer\t01/2024 - Present", "headingLevel": 0, "bullet": false },
+  { "text": "Did the first thing", "headingLevel": 0, "bullet": true },
+  { "text": "", "headingLevel": 0, "bullet": false },
+  { "text": "SECOND CO\tRemote", "headingLevel": 2, "bullet": false },
+  { "text": "Engineer\t01/2022 - 12/2023", "headingLevel": 0, "bullet": false },
+  { "text": "Did the second thing", "headingLevel": 0, "bullet": true },
+  { "text": "", "headingLevel": 0, "bullet": false },
+  { "text": "THIRD CO\tRemote", "headingLevel": 2, "bullet": false },
+  { "text": "Engineer\t01/2020 - 12/2021", "headingLevel": 0, "bullet": false },
+  { "text": "Did the third thing", "headingLevel": 0, "bullet": true }
+]

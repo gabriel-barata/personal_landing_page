@@ -1,0 +1,38 @@
+{
+  "title": "sample resume",
+  "body": {
+    "content": [
+      {
+        "sectionBreak": { "sectionStyle": { "sectionType": "CONTINUOUS" } }
+      },
+      {
+        "paragraph": {
+          "paragraphStyle": { "namedStyleType": "HEADING_1" },
+          "elements": [{ "textRun": { "content": "EXPERIENCE\n" } }]
+        }
+      },
+      {
+        "paragraph": {
+          "paragraphStyle": { "namedStyleType": "HEADING_2" },
+          "elements": [
+            { "textRun": { "content": "ACME CORP" } },
+            { "textRun": { "content": "\tRemote\n" } }
+          ]
+        }
+      },
+      {
+        "paragraph": {
+          "paragraphStyle": { "namedStyleType": "NORMAL_TEXT" },
+          "elements": [{ "textRun": { "content": "Engineer\t01/2023 - Present\n" } }]
+        }
+      },
+      {
+        "paragraph": {
+          "paragraphStyle": { "namedStyleType": "NORMAL_TEXT" },
+          "bullet": { "listId": "list1", "nestingLevel": 0 },
+          "elements": [{ "textRun": { "content": "Did a thing\n" } }]
+        }
+      }
+    ]
+  }
+}
