@@ -17,7 +17,8 @@
             "Developed custom Python scripts to automate the discovery and import of 90% of the existing Snowflake environment into Terraform, managing Databases, Warehouses, Roles, and Grants via YAML abstraction layers;",
             "Architected and implemented robust CI/CD pipelines for Snowflake object lifecycle management on Azure DevOps, incorporating automated quality gates and approval workflows to ensure governed and secure deployments;",
             "Provided Technical Advisory for the Snowflake Platform team, guiding the client on DevOps best practices and the technical implementation of Snowflake Cortex AI features;",
-            "Designed and initialized modern data pipelines using dbt, Snowflake, and Apache Airflow to support the strategic migration of claims data during the Aviva-DLG acquisition;"
+            "Designed and initialized modern data pipelines using dbt, Snowflake, and Apache Airflow to support the strategic migration of claims data during the Aviva-DLG acquisition;",
+            "Testing my new feature;"
           ]
         },
         {
