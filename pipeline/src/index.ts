@@ -1,13 +1,33 @@
 // Entry point for `pnpm --filter pipeline generate`.
 //
-// Intended flow (see docs/architecture-decisions.md, decisions 2-8):
-//   1. Authenticate to the Google Docs API with the service account
-//      credentials in GOOGLE_SERVICE_ACCOUNT_KEY.
-//   2. Fetch the document identified by GOOGLE_DOC_ID via `googleapis`.
-//   3. Parse it into the shared `schema` package's resume shape.
-//   4. Write the result to resume.json for the frontend to read at build time.
-//
-// Not implemented yet — this is a placeholder so the workspace, script, and
-// GitHub Actions wiring exist ahead of the actual parsing logic.
+// Current step: fetch the raw Docs API response for the resume Doc and
+// write it to tmp/raw-doc.json for inspection. Parsing into the shared
+// `schema` package's resume shape is a later step (see
+// docs/architecture-decisions.md, decisions 2-8).
 
-throw new Error("pipeline: not implemented yet");
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname } from "node:path";
+import { google } from "googleapis";
+
+const { GOOGLE_SERVICE_ACCOUNT_KEY, GOOGLE_DOC_ID } = process.env;
+
+if (!GOOGLE_SERVICE_ACCOUNT_KEY || !GOOGLE_DOC_ID) {
+  throw new Error(
+    "Missing GOOGLE_SERVICE_ACCOUNT_KEY or GOOGLE_DOC_ID in the environment.",
+  );
+}
+
+const auth = new google.auth.GoogleAuth({
+  credentials: JSON.parse(GOOGLE_SERVICE_ACCOUNT_KEY),
+  scopes: ["https://www.googleapis.com/auth/documents.readonly"],
+});
+
+const docs = google.docs({ version: "v1", auth });
+
+const { data } = await docs.documents.get({ documentId: GOOGLE_DOC_ID });
+
+const outputPath = "tmp/raw-doc.json";
+mkdirSync(dirname(outputPath), { recursive: true });
+writeFileSync(outputPath, JSON.stringify(data, null, 2));
+
+console.log(`Fetched Doc "${data.title}" -> ${outputPath}`);

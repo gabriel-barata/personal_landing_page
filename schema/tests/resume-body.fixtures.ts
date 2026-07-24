@@ -1,0 +1,158 @@
+// Compile-time fixtures for the `schema` package's About/Experience shape.
+// A failing `tsc` (unexpected error, or a missing `@ts-expect-error`) is a
+// failing test — see research.md #1 and quickstart.md.
+
+import type {
+  About,
+  EmployerEntry,
+  Experience,
+  ResumeBody,
+  Role,
+} from "../src/index.js";
+
+// US1 Scenario 1 (quickstart.md #1): single-role employer.
+const bancoInter: EmployerEntry = {
+  name: "BANCO INTER",
+  location: "Remote",
+  roles: [
+    {
+      title: "Data Engineer",
+      startDate: { month: 5, year: 2024 },
+      endDate: { month: 3, year: 2025 },
+      achievements: [
+        "Led a Data Engineering squad responsible for the development and evolution of 26+ business-critical data products, focusing on building scalable Data Engineering solutions and high-volume Big Data pipelines",
+        "Engineered and optimized high-volume Apache Spark jobs with Python for data transformation within an AWS Data Lake environment, ensuring high performance for complex Big Data workloads",
+        "Designed and deployed AWS EMR clusters to run Spark applications, achieving significant cost-efficiency and performance optimization for the company's Cloud Data Platform",
+        "Architected and implemented Infrastructure as Code (IaC) using Terraform, automating the provisioning of AWS resources and data services to accelerate the deployment of Data Engineering applications",
+        "Orchestrated complex data pipelines and ETL workflows using Apache Airflow, integrating large datasets from Apache Kafka, REST APIs, and relational databases into the AWS Data Lake",
+        "Acted as a technical mentor for the Data Engineering team, fostering knowledge sharing on Python, SQL, Apache Spark, and AWS best practices to facilitate the integration of new team members",
+      ],
+    },
+  ],
+};
+
+// Negative fixtures (quickstart.md): each must fail to compile.
+
+const roleWithNoAchievements: Role = {
+  title: "Data Engineer",
+  startDate: { month: 1, year: 2020 },
+  // @ts-expect-error — achievements requires at least one entry (FR-005).
+  achievements: [],
+};
+
+const employerWithNoRoles: EmployerEntry = {
+  name: "Empty Co",
+  location: "Remote",
+  // @ts-expect-error — roles requires at least one entry (FR-004).
+  roles: [],
+};
+
+const roleWithInvalidMonth: Role = {
+  title: "Data Engineer",
+  // @ts-expect-error — month must be 1-12.
+  startDate: { month: 13, year: 2020 },
+  achievements: ["Did the thing"],
+};
+
+// US1 Scenario 2 (quickstart.md #2) + US1 Scenario 3 (quickstart.md #3):
+// multi-role employer, most-recent-first, one role ongoing (no endDate),
+// each role's `client` distinct from the employer name.
+const indiciumAi: EmployerEntry = {
+  name: "INDICIUM AI",
+  location: "London, UK",
+  roles: [
+    {
+      title: "Data Engineer",
+      client: "Aviva",
+      startDate: { month: 8, year: 2025 },
+      // No endDate: still ongoing ("Present" in the source doc).
+      achievements: [
+        "Engineered and deployed a scalable Snowflake governance framework using Terraform and Python, migrating manual SQL-based object management to a modern GitOps workflow",
+        "Developed custom Python scripts to automate the discovery and import of 90% of the existing Snowflake environment into Terraform, managing Databases, Warehouses, Roles, and Grants via YAML abstraction layers",
+        "Architected and implemented robust CI/CD pipelines for Snowflake object lifecycle management on Azure DevOps, incorporating automated quality gates and approval workflows to ensure governed and secure deployments",
+        "Provided Technical Advisory for the Snowflake Platform team, guiding the client on DevOps best practices and the technical implementation of Snowflake Cortex AI features",
+        "Designed and initialized modern data pipelines using dbt, Snowflake, and Apache Airflow to support the strategic migration of claims data during the Aviva-DLG acquisition",
+      ],
+    },
+    {
+      title: "Data Engineer",
+      client: "Audantic",
+      startDate: { month: 6, year: 2025 },
+      endDate: { month: 8, year: 2025 },
+      achievements: [
+        "Solely led and executed the end-to-end migration from Hive Metastore to Databricks Unity Catalog, managing the complete transition of 14 pipelines and 250+ tables, including clusters, Spark jobs, and DLT pipelines",
+        "Optimized Apache Spark jobs, implementing performance tuning that achieved up to a 50% reduction in execution time and resource consumption within the Databricks environment",
+        "Architected and implemented automated CI/CD pipelines using GitHub Actions and Databricks Asset Bundles to streamline the deployment of data products and Cloud resources",
+        "Collaborated with IT teams to define and implement AWS IAM policies following the least privilege principle, ensuring secure and governed access control for the Cloud Data Platform",
+        "Guided the discovery and dimensional modeling phase for future analytical products, designing scalable SQL-based table structures and schemas to support long-term business intelligence needs",
+      ],
+    },
+    {
+      title: "Data Engineer",
+      client: "Indimesh",
+      startDate: { month: 3, year: 2025 },
+      endDate: { month: 6, year: 2025 },
+      achievements: [
+        "Architected and deployed enterprise-grade Databricks environments within AWS and Azure cloud ecosystems using Terraform, creating standardized, production-ready blueprints for clusters, networking, and Unity Catalog",
+        "Developed a Python-based data extraction template utilizing Singer Taps containerized on Amazon ECS and orchestrated by Apache Airflow to automate complex data ingestion workflows from SharePoint",
+        "Enhanced Cloud Data Platform scalability by resolving 20+ technical issues and implementing infrastructure optimizations for Databricks, AWS, and Azure resources within the firm's central acceleration initiative",
+        "Engineered automated CI/CD pipelines for data product deployment, integrating automated testing and built-in observability features to trigger real-time notifications and monitor deployment health",
+        "Standardized Data Platform Engineering project implementations by authoring comprehensive documentation and Terraform templates for Databricks and AWS resource deployments, reducing initial setup time for consulting teams",
+      ],
+    },
+  ],
+};
+
+// US2 Scenario 1 (quickstart.md #4): About narrative as one unsplit block.
+const about: About =
+  "Data Engineer with 4 years of experience architecting scalable Lakehouse platforms and leading cloud migrations across the Financial (Fintech), Insurance, mobility, and industrial sectors. Specializes in building automated, high-volume big data solutions using Python, Apache Spark, Terraform, Databricks, Snowflake, and AWS. Recent project experience includes designing event-driven ELT pipelines, establishing CI/CD infrastructure-as-code governance, and modernizing legacy data warehouses into decentralized architectures. Trilingual professional focused on delivering robust data engineering solutions and DevOps best practices.";
+
+// Remaining employers, needed only for the full-ordering fixture below.
+const vizentec: EmployerEntry = {
+  name: "VIZENTEC S/A",
+  location: "Remote",
+  roles: [
+    {
+      title: "Data Engineer",
+      startDate: { month: 9, year: 2023 },
+      endDate: { month: 5, year: 2024 },
+      achievements: [
+        "Owned the orchestration layer as Airflow Layer Owner, managing the full lifecycle of complex pipelines and infrastructure to ingest data from Apache Kafka, Cassandra, Oracle, and APIs",
+        "Architected and implemented a modern data modeling layer using dbt and SQL, significantly improving the team's development experience and standardizing Data Warehouse and Data Mart architectures",
+        "Optimized legacy Big Data workloads by performing fine-tuning on Apache Spark jobs, leveraging Python and SQL to reduce execution time and resource consumption for high-volume data processing",
+        "Maintained and supported legacy pipelines built with Apache NiFi, ensuring data integrity and availability across the entire Data Platform",
+        "Developed custom Python web applications to streamline manual processes, integrating these solutions into the broader Data Engineering and Big Data ecosystem",
+      ],
+    },
+  ],
+};
+
+const cosmefar: EmployerEntry = {
+  name: "COSMEFAR",
+  location: "Goiânia, Brazil",
+  roles: [
+    {
+      title: "Data Engineer",
+      startDate: { month: 9, year: 2022 },
+      endDate: { month: 9, year: 2023 },
+      achievements: [
+        "Engineered and deployed a complete data platform from scratch, including a PostgreSQL Data Warehouse and Dockerized Apache Airflow infrastructure, supporting a 2x increase in company size during my tenure",
+        "Designed and implemented Star Schema dimensional models using SQL, automating data delivery for Sales and Marketing teams through interactive Power BI dashboards",
+        "Developed web scraping solutions using Python(Scrapy) to replace manual market research, delivering processed data directly to Google Sheets for the commercial team",
+        "Orchestrated end-to-end ETL pipelines with Apache Airflow to integrate data from diverse sources, including ERP systems, Google Ads API, and internal CRM databases",
+      ],
+    },
+  ],
+};
+
+// Full Experience ordering (FR-011, quickstart.md #5): reverse-chronological,
+// matching the source document's employer order exactly.
+const fullExperience: Experience = [indiciumAi, bancoInter, vizentec, cosmefar];
+
+// ResumeBody independence (FR-010, quickstart.md #6): each field is
+// populated without the other.
+const aboutOnly: ResumeBody = { about };
+const experienceOnly: ResumeBody = { experience: fullExperience };
+
+// @ts-expect-error — `education` is out of scope for ResumeBody (FR-009).
+const outOfScope: ResumeBody = { education: "not part of this schema" };
