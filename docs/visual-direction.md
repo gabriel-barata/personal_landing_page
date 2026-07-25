@@ -10,6 +10,24 @@ several with revised decisions from a grill-me session that resolved every
 
 ## Revision history
 
+- **2026-07-25 (visual conformance audit):** one amendment from reconciling
+  this doc against the shipped frontend. Tech Stack categories (decision 4)
+  updated to match the 8-category/43-item taxonomy fixed by spec.md's
+  Clarifications session and `contracts/content-data.md` (FR-003), which
+  supersedes this doc's earlier illustrative 4-category list — the content
+  contract is tested (`tests/data/tech-stack.test.ts`) and is the source of
+  truth for exact categories/items.
+- **2026-07-25 (grill-me session):** three changes from a palette/scope
+  review. Neutrals shift warm → cool across base/border/support/ink (decision
+  8 rationale and Palette base table); accent changes navy → teal (decision
+  8, rewritten, including a new standing minimum-size/no-tinted-background
+  rule and explicit acknowledgment of the FSI-trust-for-tech-signal
+  trade-off); dark mode moves from a deferred footnote to a fully specified,
+  in-scope decision (decision 18, new). Cascading fixes from the accent
+  change: hero stack label (decision 3) gets a scoped 15px exception to stay
+  accent-colored and AA-compliant; Tech Stack item labels (decision 4) and
+  button/CTA labels (decision 11) get an explicit ≥15px floor to close gaps
+  the doc previously left unspecified.
 - **2026-07-24 (after first Claude Design draft):** reviewed four deviations
   the prototype introduced against this spec. Amended: hero stack row now
   uses curated platform icons instead of text chips (decision 3); icon
@@ -88,6 +106,14 @@ for a photo.
 
 All six fit without scrolling on a standard laptop viewport.
 
+**Amended 2026-07-25 (audit):** item 6 is implemented as **email + LinkedIn
+only** (2 buttons), not email + LinkedIn + CV. The header (decision 13)
+already carries a standalone, persistent "Download CV" button — repeating it
+in the hero contact row (and its footer echo, decision 6) would be a
+redundant second CTA for the same action. Still within the "2–3" range this
+decision specifies; the CV-specific item is intentionally covered by the
+header instead.
+
 **Why:** directly answers the anirban-portfolio reference — everything a
 recruiter needs in <10 seconds — but in a deliberately ordered, non-messy
 hierarchy instead of that reference's cluttered arrangement.
@@ -100,14 +126,34 @@ decision 4), with accent applied only to the label text beneath each icon —
 this keeps a single deliberate accent touch per item without turning the
 hero into the page's most accent-heavy zone (see Principle 3).
 
+**Amended 2026-07-25:** this label uses the same "small uppercase label"
+style as the rest of the page (13px per the type scale), which falls below
+the ≥15px floor now required for accent-colored text (decision 8). Rather
+than dropping the accent color here — the hero's one deliberate accent
+touch — this specific label is a scoped exception set at 15px; every other
+small-uppercase-label instance on the page (role/title line, category
+headers, etc.) stays at 13px, since only this one is accent-colored.
+
 ### 4. Tech Stack section: category-grouped, icon + label
 
-Grouped by category (`LANGUAGES`, `DATA & PIPELINES`, `CLOUD & INFRA`,
-`FSI DOMAIN TOOLS`) as small uppercase mono labels. Each category lists items
+Grouped by category as small uppercase mono labels. Each category lists items
 as **monochrome icon + text label**, ink-colored at rest, accent-colored only
 on hover. No filled badges, no logos in brand color. Category blocks stack
 vertically at the section-internal spacing tokens (decision 9); items within
 a category wrap horizontally with tight gaps.
+
+**Amended 2026-07-25 (audit):** this decision originally named four
+illustrative categories (`LANGUAGES`, `DATA & PIPELINES`, `CLOUD & INFRA`,
+`FSI DOMAIN TOOLS`). Spec.md's Clarifications session (2026-07-25) and its
+`contracts/content-data.md` (FR-003) fixed a more granular, tested taxonomy —
+**8 categories, 43 unique items** — as the actual content contract:
+Programming Languages, Databases & Storage, Data Tools, Visualization Tools,
+Cloud, ML Frameworks & Tools, Programming Frameworks, Others. This supersedes
+the four-category illustration above; `frontend/src/data/tech-stack.ts` and
+`tests/data/tech-stack.test.ts` are the source of truth for exact categories
+and items going forward. The rendering treatment described below (monochrome
+icon + label, accent-on-hover, spacing) is unaffected — only the taxonomy
+changed.
 
 **Why:** answers the andy-hk.com reference (organized, clear stack at a
 glance) while fixing its main flaw (too much whitespace) via the spacing
@@ -126,6 +172,12 @@ CDN. Fine for a fast draft, but doesn't carry into the real build — matches
 the existing self-hosted-fonts precedent (no external network dependency on
 page load, no FOUC while a CDN request resolves, no risk of an icon set
 changing or breaking under you).
+
+**Amended 2026-07-25:** item labels (e.g. "Databricks", "Python") were never
+given an explicit size — only the category headers were pinned to the 13px
+small-uppercase style. Since item labels turn accent-colored on hover
+(decision 8's ≥15px floor applies), item labels are now explicitly set at
+15px, distinct from the 13px category headers above them.
 
 ### 5. Corners and borders: fully square, hairline, no shadows
 
@@ -164,19 +216,42 @@ scoped to where it's actually informative (work history), without borrowing
 that reference's scroll-narrative motion, which would conflict with decision
 10 (near-zero motion).
 
-### 8. Accent color: `#1F3864` (deep navy)
+### 8. Accent color: `#0F7C86` (teal)
 
-Replaces the original doc's provisional rust/amber (`#A8500F`).
+Replaces the original doc's provisional rust/amber (`#A8500F`) and, as of
+2026-07-25, the deep navy (`#1F3864`) that superseded it.
 
-| Role | Hex | Contrast on `#FAF9F6` |
+| Role | Hex | Contrast on `#F6F8F8` |
 |---|---|---|
-| Accent | `#1F3864` | ~11:1 (AA-safe with large margin) |
+| Accent | `#0F7C86` | ~4.9:1 (AA for text and buttons, no longer a large margin) |
 
-**Why:** the original accent was explicitly flagged "provisional, will
-change." A cool navy against the warm-paper neutral base is a deliberate,
-legible contrast; navy also reads as FSI/financial-trustworthy, which a
-warm rust does not. Named `--color-accent` in CSS, not by hue, so it can
-still move in one line if needed later.
+**Why:** the navy accent read as more "letterpress finance document" than
+the "sober, tech-touch" tone this page is aiming for. Teal is the deliberate
+"more tech" move — but it's a real trade-off, not a free upgrade: navy's
+rationale explicitly leaned on reading as FSI/financial-trustworthy, which
+teal does not carry the same way. This page is choosing to signal "modern
+data/tech practitioner" over "traditional banking," on the view that the
+audience (FSI hiring managers evaluating a data engineer) responds more to
+technical credibility than to visual conservatism. That's a conscious trade,
+not an oversight.
+
+The other cost is headroom: contrast drops from ~11:1 to ~4.9:1. Still AA
+for text and buttons, but with nowhere near navy's margin. This constrains
+where accent-as-text can be used:
+
+**Standing rule — applies to any accent-on-text usage, present or future:**
+accent-colored text must never be smaller than **15px**, and must never sit
+on a tinted/non-base background. Below 15px or on a tinted background, the
+already-tight ~4.9:1 margin isn't reliable. (This rule doesn't apply to
+non-text uses of accent — e.g. the timeline tick, decision 7 — where WCAG's
+non-text contrast threshold is a more forgiving 3:1.) Every current
+accent-on-text usage has been checked against this rule as part of this
+revision: hero stack label (decision 3, scoped 15px exception), Tech Stack
+item labels on hover (decision 4, pinned to 15px), and button/CTA labels
+(decision 11, pinned to ≥15px).
+
+Named `--color-accent` in CSS, not by hue, so it can still move in one line
+if needed later.
 
 ### 9. Spacing scale
 
@@ -211,7 +286,9 @@ animated pattern — appropriate for that project, not for this one.
 
 Square (decision 5), 1px accent border, accent-colored text, transparent
 background at rest. On hover: inverts to filled accent background with
-paper-colored text.
+base-colored text. Label text is set at ≥15px (decision 8's standing
+minimum for any accent-on-text usage — applies here both to the outline
+state's accent-colored text and the hover state's accent-colored fill).
 
 **Why:** keeps the accent's "used deliberately, not everywhere" restraint at
 rest, while giving buttons enough presence to read as actionable — a plain
@@ -315,6 +392,62 @@ surfacing the gap. Closing it here: Silkscreen is the one-off third
 typeface, used *only* for the monogram, self-hosted/subset like the other
 two fonts (see Typography below).
 
+### 18. Dark mode: in scope, one inverted variant
+
+Dark mode moves from "future toggle" to a fully specified, in-scope
+feature — one inverted variant (not a separate theme system).
+
+**Palette:**
+
+| Role | Hex | Contrast on dark base |
+|---|---|---|
+| Base | `#101416` | — |
+| Border | `#262D2F` | ~1.3:1 (hairline only, mirrors light mode's barely-there border relationship — not meant to meet text contrast) |
+| Support | `#8B9394` | ~5.9:1 (secondary text) |
+| Ink | `#E8EBEC` | ~15.5:1 (body text) |
+| Accent | `#4FA3AC` | ~6.3:1 (lifted from `#0F7C86` for legibility against a dark base) |
+
+**Default:** respects OS `prefers-color-scheme`, falling back to light if
+undetectable. A manual toggle overrides this, and the override persists
+across visits (e.g. `localStorage`) rather than resetting to OS preference
+on every page load.
+
+**Toggle:** plain-text `LIGHT / DARK`, same convention, placement, and color
+rule as the `EN / PT` toggle (decision 15a) — same top-right persistent
+cluster, inactive state in support-gray, active state in ink, never accent,
+hairline `/` separator, no icons.
+
+**Motion:** the theme switch itself is instant, with no transition — this is
+deliberately *not* treated as an extension of decision 10's short
+hover/focus color-transition allowance. A page-wide crossfade on every
+element is a more noticeable, more "app-like" flourish than the small hover
+transitions decision 10 permits, and risks reading as a template gimmick.
+
+**Component carry-through:** icons and the monogram already use
+`currentColor`/CSS custom properties (decision 4, decision 17), so they
+adapt automatically via the ink variable — no separate dark-mode icon set.
+Buttons (decision 11) follow the same outline-at-rest/filled-on-hover
+pattern with dark-mode tokens: hover fill uses the dark accent
+(`#4FA3AC`) with dark base-colored (`#101416`) text, which is the pairing
+that clears contrast (`#E8EBEC` ink text on `#4FA3AC` accent is only
+~2.45:1 and must not be used).
+
+**Certification badges (decision 14):** each badge slot gets a light
+backing plate (`#F6F8F8`, the light-mode base) behind the image, in addition
+to the existing hairline frame. Real provider-issued badges (AWS,
+Databricks, Snowflake, etc.) commonly ship as flat images with a baked-in
+white or transparent background, not designed to sit on a dark surface — a
+bare dark slot risks a stray white box or a badge that loses its
+dark-colored elements the moment a real credential image is dropped in.
+
+**Why:** the page is a résumé that recruiters may open on a system already
+set to dark, and respecting that preference (rather than forcing light or
+dark) costs nothing beyond a standard media query. Everything else here
+follows patterns already established elsewhere in this doc (the `EN / PT`
+toggle convention, decision 10's motion restraint, decision 14's
+third-party-asset handling) rather than introducing new UI patterns for
+dark mode specifically.
+
 ## Carried over unchanged from the original draft
 
 - **Typography:** Space Grotesk (medium 500) for headings/name; Space Mono
@@ -329,18 +462,19 @@ two fonts (see Typography below).
   uppercase labels, none in body copy.
 - **Fonts:** self-hosted, subset `latin` + `latin-ext` (ã õ ç ê),
   `font-display: swap`.
-- **Palette base:**
+- **Palette base (light, default):**
 
   | Role | Hex | Use |
   |---|---|---|
-  | Background | `#FAF9F6` | page |
-  | Border | `#E6E2DA` | hairlines, dividers |
-  | Support | `#6E6A62` | secondary text |
-  | Text | `#171614` | body (near-black, never `#000`) |
-  | Accent | `#1F3864` | links, CTA, active timeline marker, badges, and (per decision 1) any new component where it signals something interactive/high-value |
+  | Background | `#F6F8F8` | page |
+  | Border | `#DFE4E5` | hairlines, dividers |
+  | Support | `#68706F` | secondary text |
+  | Text | `#131817` | body (near-black, never `#000`) |
+  | Accent | `#0F7C86` | links, CTA, active timeline marker, badges, and (per decision 1) any new component where it signals something interactive/high-value — subject to decision 8's ≥15px / no-tinted-background rule |
+
+  See decision 18 for the dark-mode palette.
 
 - Named by function in CSS (`--color-accent`, not `--color-navy`).
 - No pure black/white. Minimum AA contrast (4.5:1), including secondary text.
 - Categorical chart colors: still deferred until charts exist; must not
   compete with the accent.
-- Dark mode: still a future toggle; light remains the default for now.

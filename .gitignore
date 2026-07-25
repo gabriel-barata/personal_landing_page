@@ -7,3 +7,5 @@ tmp/
 !.env.example
 .DS_Store
 *.log
+.astro/
+.playwright-mcp/

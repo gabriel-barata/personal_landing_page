@@ -1,0 +1,188 @@
+---
+import { contactRowLinks } from "../data/contact-links.js";
+import { en } from "../data/i18n/en.js";
+import { pt } from "../data/i18n/pt.js";
+import Icon from "./Icon.astro";
+import I18nText from "./I18nText.astro";
+---
+
+<section id="top" class="hero" aria-label="Hero">
+  <div class="name-row">
+    <a class="monogram" href="#top" aria-label={en.hero.name}>EB</a>
+    <h1 class="name"><I18nText en={en.hero.name} pt={pt.hero.name} /></h1>
+  </div>
+  <p class="role label"><I18nText en={en.hero.role} pt={pt.hero.role} /></p>
+  <p class="summary"><I18nText en={en.hero.summary} pt={pt.hero.summary} /></p>
+
+  <p class="meta tabular-nums">
+    <span class="meta-location"><I18nText en={en.hero.location} pt={pt.hero.location} /></span>
+    <span class="meta-sep">·</span>
+    <span class="meta-years"
+      >{en.hero.yearsExperience}<I18nText
+        en={en.hero.yearsExperienceSuffix}
+        pt={pt.hero.yearsExperienceSuffix}
+      /></span
+    >
+  </p>
+
+  <ul class="core-stack">
+    {
+      en.hero.coreStack.map((item) => (
+        <li class="core-stack-item">
+          <Icon id={item.iconId} />
+          <span class="core-stack-label">{item.label}</span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <ul class="contact-row">
+    {
+      contactRowLinks.map((link) => (
+        <li>
+          <a class="contact-button" href={link.href}>
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: var(--space-24) var(--space-24) 0;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .name-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+  }
+
+  .monogram {
+    font-family: "Silkscreen", ui-monospace, monospace;
+    font-size: var(--font-size-3);
+    color: var(--color-ink);
+    text-decoration: none;
+    line-height: 1;
+  }
+
+  .monogram[data-pinned="true"] {
+    position: fixed;
+    top: var(--space-16);
+    left: var(--space-24);
+    z-index: 20;
+  }
+
+  .name {
+    font-size: var(--font-size-1);
+  }
+
+  .role {
+    color: var(--color-support);
+  }
+
+  .summary {
+    color: var(--color-ink);
+    max-width: 65ch;
+  }
+
+  .meta {
+    color: var(--color-support);
+    font-size: var(--font-size-4);
+  }
+
+  .meta-sep {
+    margin: 0 var(--space-8);
+  }
+
+  .core-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-24);
+    margin-top: var(--space-8);
+  }
+
+  .core-stack-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .core-stack-label {
+    color: var(--color-accent);
+    font-size: var(--font-size-4);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-16);
+    margin-top: var(--space-8);
+  }
+
+  .contact-button {
+    display: inline-block;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    background: transparent;
+    padding: var(--space-8) var(--space-16);
+    font-size: var(--font-size-4);
+    text-decoration: none;
+    transition: background-color var(--transition-hover), color var(--transition-hover);
+  }
+
+  .contact-button:hover,
+  .contact-button:focus-visible {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      padding: var(--space-16) var(--space-16) 0;
+    }
+
+    .name {
+      font-size: 28px;
+    }
+
+    .meta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .meta-sep {
+      display: none;
+    }
+
+    .monogram[data-pinned="true"] {
+      left: var(--space-16);
+    }
+  }
+</style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>(".hero");
+  const monogram = document.querySelector<HTMLAnchorElement>(".monogram");
+
+  if (hero && monogram) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        monogram.dataset.pinned = entry.isIntersecting ? "false" : "true";
+      },
+      { threshold: 0 },
+    );
+    observer.observe(hero);
+  }
+</script>

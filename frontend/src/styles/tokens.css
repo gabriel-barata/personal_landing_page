@@ -1,0 +1,56 @@
+:root {
+  /* Colors — light (default), visual-direction decision 8 / Palette base */
+  --color-base: #f6f8f8;
+  --color-border: #dfe4e5;
+  --color-support: #68706f;
+  --color-ink: #131817;
+  --color-accent: #0f7c86;
+  --color-accent-ink: var(--color-base); /* text color on a filled-accent background */
+
+  /* Certification badge backing plate — always light, even in dark mode
+     (visual-direction decision 18: real badges assume a light backing). */
+  --color-badge-backing: #f6f8f8;
+
+  /* Spacing scale — visual-direction decision 9 */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+
+  /* Section-to-section gap — hard-capped, decision 9 / FR-010 / FR-013 */
+  --section-gap: var(--space-64);
+
+  /* Type scale — visual-direction Typography, ~1.2 ratio */
+  --font-size-1: 34px;
+  --font-size-2: 24px;
+  --font-size-3: 18px;
+  --font-size-4: 15px;
+  --font-size-5: 13px;
+
+  /* Letter-spacing */
+  --tracking-heading: -0.02em;
+  --tracking-label: 0.06em;
+
+  /* Motion — visual-direction decision 10 */
+  --transition-hover: 140ms ease-out;
+}
+
+:root[data-theme="dark"] {
+  /* Colors — dark, visual-direction decision 18 */
+  --color-base: #101416;
+  --color-border: #262d2f;
+  --color-support: #8b9394;
+  --color-ink: #e8ebec;
+  --color-accent: #4fa3ac;
+  --color-accent-ink: var(--color-base);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --section-gap: var(--space-48);
+  }
+}

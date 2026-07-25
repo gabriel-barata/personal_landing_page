@@ -1,0 +1,61 @@
+---
+import { en } from "../data/i18n/en.js";
+import { pt } from "../data/i18n/pt.js";
+import I18nText from "./I18nText.astro";
+---
+
+<span class="theme-toggle">
+  <button type="button" class="option option-light" data-theme-option="light">
+    <I18nText en={en.microcopy.themeLight} pt={pt.microcopy.themeLight} />
+  </button>
+  <span class="sep">/</span>
+  <button type="button" class="option option-dark" data-theme-option="dark">
+    <I18nText en={en.microcopy.themeDark} pt={pt.microcopy.themeDark} />
+  </button>
+</span>
+
+<script>
+  import { persistTheme } from "../lib/theme.js";
+
+  const root = document.documentElement;
+  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-theme-option]");
+
+  for (const button of buttons) {
+    button.addEventListener("click", () => {
+      const theme = button.dataset.themeOption === "dark" ? "dark" : "light";
+      root.classList.add("theme-switching");
+      root.setAttribute("data-theme", theme);
+      persistTheme(localStorage, theme);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          root.classList.remove("theme-switching");
+        });
+      });
+    });
+  }
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    font-size: var(--font-size-4);
+  }
+
+  .option {
+    color: var(--color-support);
+  }
+
+  .sep {
+    color: var(--color-border);
+  }
+
+  :root[data-theme="light"] .option-light {
+    color: var(--color-ink);
+  }
+
+  :root[data-theme="dark"] .option-dark {
+    color: var(--color-ink);
+  }
+</style>

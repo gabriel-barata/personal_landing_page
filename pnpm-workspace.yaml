@@ -4,3 +4,4 @@ packages:
   - schema
 allowBuilds:
   esbuild: true
+  sharp: true

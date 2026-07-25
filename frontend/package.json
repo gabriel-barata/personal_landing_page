@@ -3,10 +3,23 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "test": "tsx --test tests/**/*.test.ts"
+  },
   "dependencies": {
+    "@fontsource-variable/space-grotesk": "^5.2.5",
+    "@fontsource/silkscreen": "^5.2.5",
+    "@fontsource/space-mono": "^5.2.5",
+    "astro": "^5.1.1",
     "schema": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
 }

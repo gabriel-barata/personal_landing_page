@@ -1,0 +1,55 @@
+---
+import { en } from "../data/i18n/en.js";
+import { pt } from "../data/i18n/pt.js";
+import I18nText from "./I18nText.astro";
+---
+
+<span class="lang-toggle">
+  <button type="button" class="option option-en" data-lang-option="en">
+    <I18nText en={en.microcopy.langEn} pt={pt.microcopy.langEn} />
+  </button>
+  <span class="sep">/</span>
+  <button type="button" class="option option-pt" data-lang-option="pt">
+    <I18nText en={en.microcopy.langPt} pt={pt.microcopy.langPt} />
+  </button>
+</span>
+
+<script>
+  import { persistLanguage } from "../lib/language.js";
+
+  const root = document.documentElement;
+  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-lang-option]");
+
+  for (const button of buttons) {
+    button.addEventListener("click", () => {
+      const lang = button.dataset.langOption === "pt" ? "pt" : "en";
+      root.setAttribute("data-lang", lang);
+      persistLanguage(localStorage, lang);
+    });
+  }
+</script>
+
+<style>
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    font-size: var(--font-size-4);
+  }
+
+  .option {
+    color: var(--color-support);
+  }
+
+  .sep {
+    color: var(--color-border);
+  }
+
+  :root[data-lang="en"] .option-en {
+    color: var(--color-ink);
+  }
+
+  :root[data-lang="pt"] .option-pt {
+    color: var(--color-ink);
+  }
+</style>

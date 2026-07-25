@@ -1,0 +1,134 @@
+---
+import { experiencePlaceholder } from "../data/experience-placeholder.js";
+import { en } from "../data/i18n/en.js";
+import { pt } from "../data/i18n/pt.js";
+import I18nText from "./I18nText.astro";
+---
+
+<section id="experience" class="experience" aria-label={en.sections.experience}>
+  <h2 class="section-heading label">
+    <I18nText en={en.sections.experience} pt={pt.sections.experience} />
+  </h2>
+
+  <ol class="timeline">
+    {
+      experiencePlaceholder.map((entry) => (
+        <li class="entry">
+          <div class="rail">
+            <span class={`tick ${entry.isCurrent ? "tick-current" : ""}`} />
+          </div>
+          <p class="dates tabular-nums">
+            {entry.startDate} – {entry.endDate}
+          </p>
+          <div class="content">
+            <p class="role-line">
+              <span class="role">{entry.role}</span> · <span class="company">{entry.company}</span>
+            </p>
+            <p class="summary">{entry.summary}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .experience {
+    padding: var(--section-gap) var(--space-24) 0;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-heading {
+    color: var(--color-support);
+    margin-bottom: var(--space-24);
+  }
+
+  .timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    column-gap: var(--space-24);
+  }
+
+  .rail {
+    position: absolute;
+    top: 0;
+    bottom: calc(-1 * var(--space-24));
+    left: 96px;
+    width: 1px;
+    background: var(--color-border);
+  }
+
+  .entry:last-child .rail {
+    bottom: 0;
+  }
+
+  .tick {
+    position: absolute;
+    top: 4px;
+    left: -4px;
+    width: 9px;
+    height: 9px;
+    background: var(--color-base);
+    border: 1px solid var(--color-support);
+  }
+
+  .tick-current {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .dates {
+    color: var(--color-support);
+    font-size: var(--font-size-4);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 65ch;
+  }
+
+  .role-line {
+    color: var(--color-ink);
+  }
+
+  .role {
+    font-family: "Space Grotesk Variable", sans-serif;
+    font-weight: 500;
+  }
+
+  .company {
+    color: var(--color-support);
+  }
+
+  .summary {
+    color: var(--color-ink);
+    font-size: var(--font-size-4);
+  }
+
+  @media (max-width: 767px) {
+    .experience {
+      padding: var(--section-gap) var(--space-16) 0;
+    }
+
+    .entry {
+      grid-template-columns: 1fr;
+      row-gap: var(--space-4);
+      padding-left: var(--space-24);
+    }
+
+    .rail {
+      left: 0;
+    }
+  }
+</style>
