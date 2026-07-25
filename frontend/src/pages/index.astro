@@ -1,0 +1,86 @@
+---
+import "../styles/global.css";
+import CertificationsEducation from "../components/CertificationsEducation.astro";
+import ContactFooter from "../components/ContactFooter.astro";
+import Experience from "../components/Experience.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import TechStack from "../components/TechStack.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Emanuel Barata — Data Engineer, FSI</title>
+
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/space-grotesk-latin-wght-normal.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/space-mono-latin-400-normal.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/silkscreen-latin-400-normal.woff2"
+      crossorigin
+    />
+
+    <!--
+      Render-blocking, no-FOUC bootstrap (research.md #6). This must be a
+      classic (non-module, non-defer) inline script so it runs before first
+      paint — that constraint means it can't `import` lib/theme.ts /
+      lib/language.ts directly, so it restates their resolution rule
+      (persisted value > OS preference > default) inline. The canonical,
+      tested implementation of that rule lives in src/lib/theme.ts and
+      src/lib/language.ts, reused as-is by the two toggle islands.
+    -->
+    <script is:inline>
+      (function () {
+        var THEME_KEY = "resume:theme";
+        var LANG_KEY = "resume:lang";
+
+        function readStored(key) {
+          try {
+            return localStorage.getItem(key);
+          } catch {
+            return null;
+          }
+        }
+
+        var storedTheme = readStored(THEME_KEY);
+        var prefersDark =
+          typeof matchMedia === "function" && matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = storedTheme === "light" || storedTheme === "dark" ? storedTheme : prefersDark ? "dark" : "light";
+
+        var storedLang = readStored(LANG_KEY);
+        var lang = storedLang === "en" || storedLang === "pt" ? storedLang : "en";
+
+        document.documentElement.setAttribute("data-theme", theme);
+        document.documentElement.setAttribute("data-lang", lang);
+      })();
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <Hero />
+      <Experience />
+      <TechStack />
+      <CertificationsEducation />
+    </main>
+    <ContactFooter />
+  </body>
+</html>

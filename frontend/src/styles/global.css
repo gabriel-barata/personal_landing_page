@@ -1,0 +1,173 @@
+@import "./tokens.css";
+
+/* Fonts — self-hosted, latin + latin-ext, font-display: swap
+   (research.md #3, visual-direction Typography / decision 17) */
+@font-face {
+  font-family: "Space Grotesk Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url("/fonts/space-grotesk-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Space Grotesk Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url("/fonts/space-grotesk-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/space-mono-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/space-mono-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Silkscreen";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/silkscreen-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Silkscreen";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/silkscreen-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* No rounded corners, no shadows anywhere (visual-direction decision 5) */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Base typography */
+body {
+  background: var(--color-base);
+  color: var(--color-ink);
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Space Grotesk Variable", sans-serif;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-heading);
+}
+
+.label {
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: var(--font-size-5);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-ink);
+}
+
+/* Language-dependent text: both variants are rendered at build time; the
+   inline bootstrap script / LanguageToggle set data-lang synchronously and
+   CSS alone decides which one shows — no client-side text swap needed
+   (contracts/theme-language-state.md). */
+[data-i18n] {
+  display: none;
+}
+
+/* Theme switch is instant, no crossfade (visual-direction decision 18) —
+   suppresses hover/focus transitions for the single frame the theme flips. */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
+:root[data-lang="en"] [data-i18n="en"],
+:root[data-lang="pt"] [data-i18n="pt"] {
+  display: inline;
+}

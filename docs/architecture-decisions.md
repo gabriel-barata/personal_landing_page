@@ -6,6 +6,10 @@ from a shared understanding instead of re-litigating these choices.
 
 ## Revision history
 
+- **2026-07-25 (feature 003 planning session):** resolved the "Frontend
+  framework choice" open item (decision 10, new) — Astro was chosen while
+  planning the first feature that needed a real frontend. Full rationale in
+  `specs/003-ui-layout-static-content/research.md` #1.
 - **2026-07-24 (later same day):** switched the pipeline from Python to pure
   TypeScript/Node.js. This superseded three decisions from the original session:
   repo tooling (decision 1), cross-language schema sharing (decision 6), and the
@@ -176,10 +180,36 @@ the pipeline/script, TypeScript for the frontend — reasoning that Python suite
 scripting/Google-API work well. The author revisited this and preferred a pure
 TypeScript repo instead.
 
+### 10. Frontend framework: Astro
+
+The `frontend` package uses Astro (static output, no SSR adapter) as its
+build tool/framework.
+
+**Why:** The page is described (`docs/visual-direction.md`) as an
+almost-entirely-static "living résumé" with near-zero motion and exactly two
+pieces of client interaction (language and theme toggles). Astro's islands
+architecture ships zero JavaScript for static content by default and only
+hydrates the two toggle components, so the framework's default output shape
+already matches that brief rather than requiring discipline (as a full SPA
+framework would) to avoid becoming more "app" than "document." It also keeps
+the frontend on the Simplicity principle: no client-side router, no global
+state library, no hydration decisions for the ~95% of the page that never
+changes after load.
+
+**Rejected:** React + Vite (full component runtime for a page needing almost
+no client-side reactivity). Svelte + Vite (compiles away too, but still
+mounts a runtime for the whole page vs. Astro's per-island hydration).
+Vanilla TypeScript + Vite, no framework (leanest runtime, but pushes
+componentizing eight repeated Tech Stack categories, six badge slots, and a
+three-entry timeline onto hand-written DOM code).
+
+**Decided:** 2026-07-25, while planning feature
+`003-ui-layout-static-content` (first feature needing a real frontend). Full
+rationale: `specs/003-ui-layout-static-content/research.md` #1.
+
 ## Open / deferred (not yet decided)
 
 - Exact field-level resume schema (what goes in `experience[]`, `skills[]`, etc.)
-- Frontend framework choice
 - Hosting platform for the frontend
 - Domain
 - Additional page features (contact form, PDF download, analytics, i18n)
