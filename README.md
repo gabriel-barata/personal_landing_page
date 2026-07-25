@@ -39,3 +39,11 @@ This is the initial scaffold only. Nothing here implements resume parsing,
 renders a page, or is deployed. See "Open / deferred" in
 [docs/architecture-decisions.md](docs/architecture-decisions.md) for what's
 still undecided.
+
+## Ideas
+1. footnote - moving data since or something like that
+2. footnote/moving - add the current time at my location
+3. something that interact with the page scrolling - need think about this
+
+## To-Do
+1. Review the pallete with Claude Design
