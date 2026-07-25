@@ -144,6 +144,56 @@ h4 {
   font-variant-numeric: tabular-nums;
 }
 
+/* Chapter transition device — numbered heading + seam divider
+   (visual-direction decision 19, 2026-07-25). Shared across Experience,
+   Tech Stack, and Certifications/Education; each component adds its own
+   margin-bottom for the heading via a scoped .chapter-heading rule. */
+.chapter-divider {
+  position: relative;
+  height: 1px;
+  background: var(--color-border);
+  margin: calc(var(--section-gap) / 2) 0;
+}
+
+.chapter-tick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 9px;
+  height: 9px;
+  background: var(--color-base);
+  border: 1px solid var(--color-support);
+}
+
+.chapter-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.chapter-number {
+  font-family: "Silkscreen", ui-monospace, monospace;
+  font-size: var(--font-size-2);
+  color: var(--color-support);
+  line-height: 1;
+}
+
+.chapter-rule {
+  width: 1px;
+  align-self: stretch;
+  background: var(--color-border);
+}
+
+.chapter-title {
+  font-family: "Space Grotesk Variable", sans-serif;
+  font-weight: 500;
+  font-size: var(--font-size-2);
+  color: var(--color-ink);
+  letter-spacing: var(--tracking-heading);
+  line-height: 1.2;
+}
+
 .icon {
   width: 20px;
   height: 20px;

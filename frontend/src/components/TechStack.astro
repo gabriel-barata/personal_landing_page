@@ -7,8 +7,11 @@ import I18nText from "./I18nText.astro";
 ---
 
 <section id="tech-stack" class="tech-stack" aria-label={en.sections.techStack}>
-  <h2 class="section-heading label">
-    <I18nText en={en.sections.techStack} pt={pt.sections.techStack} />
+  <div class="chapter-divider" aria-hidden="true"><span class="chapter-tick"></span></div>
+  <h2 class="chapter-heading">
+    <span class="chapter-number">02/03</span>
+    <span class="chapter-rule" aria-hidden="true"></span>
+    <span class="chapter-title"><I18nText en={en.sections.techStack} pt={pt.sections.techStack} /></span>
   </h2>
 
   <div class="categories">
@@ -32,16 +35,13 @@ import I18nText from "./I18nText.astro";
 
 <style>
   .tech-stack {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-24);
-    padding: var(--section-gap) var(--space-24) 0;
+    padding: calc(var(--section-gap) / 2) var(--space-24) 0;
     max-width: 900px;
     margin: 0 auto;
   }
 
-  .section-heading {
-    color: var(--color-support);
+  .chapter-heading {
+    margin-bottom: var(--space-24);
   }
 
   .categories {
@@ -84,7 +84,7 @@ import I18nText from "./I18nText.astro";
 
   @media (max-width: 767px) {
     .tech-stack {
-      padding: var(--section-gap) var(--space-16) 0;
+      padding: calc(var(--section-gap) / 2) var(--space-16) 0;
     }
   }
 </style>

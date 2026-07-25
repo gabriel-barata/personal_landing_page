@@ -6,8 +6,11 @@ import I18nText from "./I18nText.astro";
 ---
 
 <section id="experience" class="experience" aria-label={en.sections.experience}>
-  <h2 class="section-heading label">
-    <I18nText en={en.sections.experience} pt={pt.sections.experience} />
+  <div class="chapter-divider" aria-hidden="true"><span class="chapter-tick"></span></div>
+  <h2 class="chapter-heading">
+    <span class="chapter-number">01/03</span>
+    <span class="chapter-rule" aria-hidden="true"></span>
+    <span class="chapter-title"><I18nText en={en.sections.experience} pt={pt.sections.experience} /></span>
   </h2>
 
   <ol class="timeline">
@@ -34,13 +37,12 @@ import I18nText from "./I18nText.astro";
 
 <style>
   .experience {
-    padding: var(--section-gap) var(--space-24) 0;
+    padding: calc(var(--section-gap) / 2) var(--space-24) 0;
     max-width: 900px;
     margin: 0 auto;
   }
 
-  .section-heading {
-    color: var(--color-support);
+  .chapter-heading {
     margin-bottom: var(--space-24);
   }
 
@@ -118,7 +120,7 @@ import I18nText from "./I18nText.astro";
 
   @media (max-width: 767px) {
     .experience {
-      padding: var(--section-gap) var(--space-16) 0;
+      padding: calc(var(--section-gap) / 2) var(--space-16) 0;
     }
 
     .entry {
