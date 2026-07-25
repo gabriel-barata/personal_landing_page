@@ -6,11 +6,24 @@ import { pt } from "../data/i18n/pt.js";
 import I18nText from "./I18nText.astro";
 ---
 
-<section id="certifications-education" class="cert-edu" aria-label={en.sections.certifications}>
+<section
+  id="certifications-education"
+  class="cert-edu"
+  aria-label={en.sections.educationCertifications}
+>
+  <div class="chapter-divider" aria-hidden="true"><span class="chapter-tick"></span></div>
+  <h2 class="chapter-heading">
+    <span class="chapter-number">03/03</span>
+    <span class="chapter-rule" aria-hidden="true"></span>
+    <span class="chapter-title"
+      ><I18nText en={en.sections.educationCertifications} pt={pt.sections.educationCertifications} /></span
+    >
+  </h2>
+
   <div class="cert-group">
-    <h2 class="section-heading label">
+    <h3 class="sub-heading label">
       <I18nText en={en.sections.certifications} pt={pt.sections.certifications} />
-    </h2>
+    </h3>
     <ul class="badges">
       {
         certifications.map((cert) => (
@@ -34,9 +47,9 @@ import I18nText from "./I18nText.astro";
   </div>
 
   <div class="education-group">
-    <h2 class="section-heading label">
+    <h3 class="sub-heading label">
       <I18nText en={en.sections.education} pt={pt.sections.education} />
-    </h2>
+    </h3>
     <ul class="education-list">
       {
         education.map((entry) => (
@@ -54,17 +67,22 @@ import I18nText from "./I18nText.astro";
 
 <style>
   .cert-edu {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-32);
-    padding: var(--section-gap) var(--space-24) 0;
+    padding: calc(var(--section-gap) / 2) var(--space-24) 0;
     max-width: 900px;
     margin: 0 auto;
   }
 
-  .section-heading {
+  .chapter-heading {
+    margin-bottom: var(--space-24);
+  }
+
+  .sub-heading {
     color: var(--color-support);
-    margin-bottom: var(--space-16);
+    margin-bottom: var(--space-12);
+  }
+
+  .education-group {
+    margin-top: var(--space-32);
   }
 
   .badges {
@@ -149,7 +167,7 @@ import I18nText from "./I18nText.astro";
 
   @media (max-width: 767px) {
     .cert-edu {
-      padding: var(--section-gap) var(--space-16) 0;
+      padding: calc(var(--section-gap) / 2) var(--space-16) 0;
     }
   }
 </style>

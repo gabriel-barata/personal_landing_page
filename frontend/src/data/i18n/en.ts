@@ -17,6 +17,7 @@ export interface Dictionary {
   sections: {
     experience: string;
     techStack: string;
+    educationCertifications: string;
     certifications: string;
     education: string;
     contact: string;
@@ -33,7 +34,7 @@ export interface Dictionary {
 export const en: Dictionary = {
   hero: {
     name: "Emanuel Barata",
-    role: "Data Engineer — FSI",
+    role: "Data Engineer / Forward Deployed Engineer — FSI",
     summary:
       "Data engineer building reliable pipelines and platforms for banks and insurers, from ingestion through to production ML.",
     location: "LISBON, PT",
@@ -50,8 +51,9 @@ export const en: Dictionary = {
   sections: {
     experience: "Experience",
     techStack: "Tech Stack",
+    educationCertifications: "Education & Certifications",
     certifications: "Certifications",
-    education: "Education",
+    education: "College",
     contact: "Contact",
   },
   microcopy: {

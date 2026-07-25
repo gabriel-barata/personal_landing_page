@@ -10,6 +10,41 @@ several with revised decisions from a grill-me session that resolved every
 
 ## Revision history
 
+- **2026-07-25 (Education & Certifications restructure, grill-me session):**
+  decision 19 amended. Chapter `03` was "Certifications" with "Education" as
+  an unnumbered sub-heading, which read as two unrelated sections rather than
+  one. Retitled the chapter "Education & Certifications," with
+  "Certifications" and "College" (renamed from "Education") as two equal
+  sub-sections beneath it, both styled with Tech Stack's category-label
+  treatment instead of a bespoke heading style.
+- **2026-07-25 (chapter headings, grill-me session):** new decision 19 —
+  Experience, Tech Stack, and Certifications/Education headings become
+  numbered chapter headings (`01/03`, Silkscreen + Space Grotesk, 24px) with
+  a static hairline-and-tick seam divider replacing the bare whitespace
+  before each, addressing a "looks like a document, nothing marks a new
+  section" complaint. A page-wide scroll-tracked progress rail was
+  considered and explicitly rejected in favor of this static device, to
+  avoid reopening decisions 1, 7, and 10 (no persistent global chrome,
+  near-zero motion) without a compelling reason. Cascading: decision 17
+  amended (Silkscreen now also used for the chapter number, not monogram-only).
+- **2026-07-25 (hero viewport containment, grill-me session):** decision 3
+  amended. The hero was shipping at natural content height with no lower
+  bound, so on a standard laptop viewport the Experience heading and first
+  entries were visible in the same first view — violating this decision's
+  "all six fit without scrolling" intent by under-delivering it (nothing
+  *enforced* that only the hero showed). Hero is now a strict first-viewport
+  section on desktop: `min-height: calc(100vh - header height)`, content
+  centered as one block to absorb slack on tall viewports, allowed to grow
+  taller than that floor (never clipped) on unusually short windows. Scoped
+  to desktop (≥768px) only — mobile keeps today's natural-flow behavior, since
+  decision 3's "standard laptop viewport" language was already desktop-scoped
+  and mobile hero content is proportionally taller relative to viewport
+  height. No scroll-affordance element (chevron/label) added — decision 10's
+  motion restraint plus the "sober document" principle argue against new
+  chrome not already in the spec; the fold line itself is the only cue. Also:
+  the role line (decision 3, item 2) now carries two roles —
+  `DATA ENGINEER / FORWARD DEPLOYED ENGINEER — FSI` — same single-line,
+  small-uppercase-label treatment, no layout change.
 - **2026-07-25 (visual conformance audit):** one amendment from reconciling
   this doc against the shipped frontend. Tech Stack categories (decision 4)
   updated to match the 8-category/43-item taxonomy fixed by spec.md's
@@ -95,7 +130,8 @@ for a photo.
 ### 3. Hero content, in order
 
 1. Monogram + name
-2. Role/title line (e.g. "Data Engineer — FSI"), small-uppercase-label style
+2. Role/title line (e.g. "Data Engineer / Forward Deployed Engineer — FSI"),
+   small-uppercase-label style — multiple roles slash-separated, single line
 3. One-line professional summary (1–2 sentences max)
 4. Metadata row: location + years of experience, inline, `tabular-nums`
    (e.g. `LISBON, PT · 6Y EXPERIENCE`)
@@ -105,6 +141,23 @@ for a photo.
 6. Contact row: 2–3 buttons/links (email, LinkedIn, CV download)
 
 All six fit without scrolling on a standard laptop viewport.
+
+**Amended 2026-07-25 (hero viewport containment):** "fits without scrolling"
+is now an enforced layout rule, not just a content-budget target. On desktop
+(≥768px), the hero section is `min-height: calc(100vh - header-height)`
+(`header-height` a fixed px value derived from the header's own tokens, not
+runtime-measured — decision 13), with its content vertically centered as one
+block via flexbox. This absorbs leftover space on tall viewports without
+adding to inter-element gaps (decision 9's spacing cap is unaffected — this is
+outer whitespace, not spacing *between* elements). The section is allowed to
+grow past that floor (never clipped/scrollable-within-hero) if content
+doesn't fit an unusually short window — the trade is that the next section
+may then peek in slightly on those rare viewports, which is preferable to
+hiding hero content. Scoped to desktop only; mobile (<768px) keeps natural
+content-height flow as today, since mobile hero content runs proportionally
+taller relative to viewport height (wrapped metadata, stacked stack icons)
+and decision 3's "standard laptop viewport" framing was already desktop-only.
+No added scroll-affordance UI (chevron/label) — see decision 10.
 
 **Amended 2026-07-25 (audit):** item 6 is implemented as **email + LinkedIn
 only** (2 buttons), not email + LinkedIn + CV. The header (decision 13)
@@ -392,6 +445,14 @@ surfacing the gap. Closing it here: Silkscreen is the one-off third
 typeface, used *only* for the monogram, self-hosted/subset like the other
 two fonts (see Typography below).
 
+**Amended 2026-07-25 (chapter headings, grill-me session):** Silkscreen gains
+a second, still-controlled use — the section-index number in each chapter
+heading (decision 19). "A single point on the page" is no longer literally
+true, but the spirit holds: Silkscreen is still not a general-purpose
+typeface (never used for body text or arbitrary headings), just a
+now-two-instance pixel-font accent confined to the monogram and this one
+numbering device.
+
 ### 18. Dark mode: in scope, one inverted variant
 
 Dark mode moves from "future toggle" to a fully specified, in-scope
@@ -447,6 +508,78 @@ follows patterns already established elsewhere in this doc (the `EN / PT`
 toggle convention, decision 10's motion restraint, decision 14's
 third-party-asset handling) rather than introducing new UI patterns for
 dark mode specifically.
+
+### 19. Section transitions: numbered chapter heading + seam divider
+
+Added because the plain 64px whitespace gap between sections (decision 9)
+read as inert document flow — recruiters scrolling past Hero into Experience
+got no sense that a new "chapter" had started. A **static** (no scroll-linked
+motion — see decision 10, unchanged) transition device was added instead of
+the page-wide scroll-tracked roadmap/progress indicator originally proposed;
+that idea was rejected because it would have required reopening decision 1
+(no persistent global chrome — the timeline rail stays scoped to Experience
+only) and decision 10/decision 7 (near-zero motion, no scroll-triggered
+progress fill) with no compelling reason to override either.
+
+**Scope:** applies to the three real content chapters — Experience (`01`),
+Tech Stack (`02`), and **Education & Certifications** (`03`, one combined
+chapter per decision 6). Does **not** apply to the Contact/footer section,
+which stays an unnumbered CTA repeat with only a visually-hidden heading, as
+today.
+
+**Amended 2026-07-25 (Education & Certifications restructure):** the `03`
+chapter was originally titled "Certifications," with "Education" demoted to
+an unnumbered sub-heading beneath it — this read as if Education were an
+unrelated, lesser afterthought rather than a peer topic. Retitled to
+**"Education & Certifications"** as the chapter heading; "Certifications"
+and "College" (renamed from "Education," to avoid repeating that word right
+under the chapter title, and to read more concretely as the specific
+degree/institution entry) are now two equal sub-sections beneath it, each
+using **Tech Stack's category-label treatment** (13px Space Mono uppercase,
+support-gray, `.label`) rather than a bespoke heading style — matching how
+Tech Stack's own category groups (Programming Languages, Cloud, etc.) are
+sub-headings within its single numbered chapter. Content order is unchanged
+(Certifications first, then College).
+
+**Chapter heading:** `<index>/<total>` (e.g. `01/03`) in **Silkscreen**
+(decision 17), support-gray, 24px — followed by a 1px vertical hairline rule,
+then the chapter title in **Space Grotesk medium, 24px, ink-colored, normal
+title case** (e.g. "Experience", not "EXPERIENCE"). This replaces the
+previous 13px Space Mono uppercase small-caps label treatment for these three
+headings specifically — that treatment (`.label`) is otherwise unchanged and
+still used for category labels, metadata, and the role/title line. The
+number stays support-gray rather than ink or accent: it's an index/marker
+(same convention as dates-vs-role-name in the Experience entries, decision
+7), not the primary content, and accent is reserved for
+interactive/high-value elements (Principle 3) — a static position marker is
+neither.
+
+**Seam divider:** a 1px hairline (`--color-border`) spanning the same
+900px content column as everything else (not full-bleed — decision 1's
+single-column restraint means nothing else on the page runs edge-to-edge, so
+this doesn't become an exception), with a small centered square tick (9×9px,
+outline, support-gray, `--color-base` fill — identical styling to the
+Experience timeline's "past role" tick, decision 7) sitting on the line. It
+appears immediately before each of the three chapter headings.
+
+**Spacing:** the divider sits *inside* the existing section-gap budget
+(decision 9), split evenly — `calc(var(--section-gap) / 2)` above and below
+it — rather than adding new space on top. Total section-to-section distance
+is unchanged (still hard-capped at 64px desktop / 48px mobile); decision 9
+required no amendment.
+
+**Scope (viewport):** applies at all breakpoints, desktop and mobile — unlike
+decision 3's hero-viewport-containment amendment, this device has no
+viewport-height dependency, so there's no reason to withhold it on mobile.
+
+**Why static, not scroll-linked:** a scroll-position-tracked indicator
+("progress fill", a persistent rail with a moving marker) is the more
+"appy," more animated pattern the original brief's references already
+pushed back against (see Context), and duplicates exactly what decisions 1,
+7, and 10 already ruled out for good reason. A fixed, always-fully-rendered
+numbered heading and divider gives the "something happens here" moment the
+page was missing, without reopening near-zero-motion or introducing
+persistent global chrome.
 
 ## Carried over unchanged from the original draft
 
