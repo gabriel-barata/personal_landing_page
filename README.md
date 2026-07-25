@@ -43,6 +43,7 @@ still undecided.
 ## Ideas
 1. footnote - moving data since or something like that
 2. footnote/moving - add the current time at my location
+3. something that interact with the page scrolling - need think about this
 
 ## To-Do
 1. Review the pallete with Claude Design
