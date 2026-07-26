@@ -1,3 +1,7 @@
+// A task bullet, optionally with sub-bullets (e.g. a detail nested under a
+// broader responsibility) — a plain string renders as a single flat bullet.
+export type TaskItem = string | { text: string; children: string[] };
+
 export interface ExperienceEntry {
   id: string;
   role: string;
@@ -9,7 +13,7 @@ export interface ExperienceEntry {
   industry: string;
   teamSize: string;
   isLead: boolean;
-  tasks: string[];
+  tasks: TaskItem[];
   achievements: string[];
 }
 
@@ -18,74 +22,83 @@ export interface ExperienceEntry {
 // (FR-007) — exactly 3 entries, most-recent-first, only entry 0 is current.
 export const experiencePlaceholder: ExperienceEntry[] = [
   {
-    id: "senior-data-engineer",
-    role: "Senior Data Engineer",
-    company: "Meridian Financial Group",
-    startDate: "2023",
+    id: "data-engineer-indicium",
+    role: "Data Engineer",
+    company: "Indicium AI",
+    startDate: "Mar 2025",
     endDate: "Present",
-    summary:
-      "Leading the migration of core risk-reporting pipelines to a Databricks lakehouse, cutting nightly batch runtime by 60% and establishing the team's data quality and observability standards.",
+    summary: "Automating infrastructure and platform migrations for financial and insurance clients.",
     isCurrent: true,
+    industry: "Consultancy — Financial Services / Insurance",
+    teamSize: "1–8 people, multidisciplinary teams (Data Engineers, Analytics Engineers, etc.)",
+    isLead: false,
+    tasks: [
+      "Architected and deployed a GitOps-driven infrastructure automation solution utilizing Terraform, Python, and Azure DevOps for a UK insurance company. Built robust CI/CD pipelines incorporating YAML abstraction layers and automated quality gates to successfully migrate 90% of manual Snowflake object management into a strictly governed, version-controlled environment, significantly reducing manual overhead.",
+      "Designed and orchestrated an ETL pipeline utilizing AWS, Python, dbt, and Snowflake to consolidate Motor insurance data following a major acquisition between the UK's top two insurance providers. Applied Data Vault methodology for data integration before transforming the output into a structured Kimball dimensional model. This end-to-end architecture populated a centralized feature store with 700 curated factors, directly empowering data science teams to train predictive models.",
+      "Led the discovery and execution of a data platform migration for a financial services company, utilizing Databricks, Unity Catalog, Spark, and Delta Live Tables to successfully transition 14 pipelines and over 250 tables. Concurrently, leveraged the migration phase to optimize the underlying big data pipelines, implementing PySpark caching strategies and cluster tuning to achieve up to a 50% reduction in execution time and compute resource consumption across the new architecture.",
+      "Engineered a comprehensive data architecture and deployment strategy, guiding the discovery and dimensional modeling phases to design scalable SQL-based table structures for long-term business intelligence. To streamline the rollout of these analytical products and cloud resources, architected and integrated automated CI/CD pipelines using GitHub Actions and Databricks Asset Bundles.",
+      {
+        text: "Architected standardized infrastructure-as-code blueprints within an internal R&D team to unify data platform implementations, using Terraform to deploy production-ready Databricks environments, networking configurations, and Unity Catalog integrations across AWS and Azure; this centralized repository of templates and documentation reduced initial environment setup time and enforced architectural consistency across consulting projects.",
+        children: [
+          "Developed a reusable Python-based data extraction template utilizing Singer Taps, containerized on Amazon ECS and orchestrated by Apache Airflow, to automate ingestion workflows from SharePoint.",
+        ],
+      },
+    ],
+    achievements: [],
+  },
+  {
+    id: "data-engineer-banco-inter",
+    role: "Data Engineer",
+    company: "Banco Inter",
+    startDate: "May 2024",
+    endDate: "Mar 2025",
+    summary:
+      "Led a 3-engineer squad owning 26+ business-critical data products for a financial services fintech.",
+    isCurrent: false,
     industry: "Financial Services",
-    teamSize: "6 engineers",
+    teamSize: "3 engineers",
     isLead: true,
     tasks: [
-      "Own the technical roadmap for migrating risk-reporting pipelines from on-prem Spark to a Databricks lakehouse",
-      "Design and enforce data quality contracts (schema checks, freshness SLAs) across ingestion pipelines",
-      "Run weekly architecture reviews and mentor two mid-level data engineers",
-      "Coordinate with Risk and Compliance stakeholders on reporting accuracy requirements",
+      "Implemented an automated cloud data platform for a Brazilian fintech, utilizing Terraform to provision AWS infrastructure and deploy data engineering applications. Within this Infrastructure-as-Code (IaC) framework, designed and optimized AWS EMR clusters to execute Spark applications, ensuring cost-efficiency and high performance for terabyte-scale data workloads.",
+      "Led a Data Engineering squad at a financial services company, directing the development and evolution of 26+ business-critical data products and high-volume big data pipelines. Serving as the primary technical point of reference, provided architectural guidance and mentored team members on Python, SQL, Apache Spark, and AWS best practices, accelerating the onboarding of new engineers and ensuring the delivery of scalable infrastructure solutions.",
+      "Orchestrated complex data ingestion pipelines into an AWS Data Lake using Apache Airflow, integrating large-scale datasets from Apache Kafka, REST APIs, and relational databases, like SQL Server and Oracle. Within this architecture, engineered and optimized high-volume Python-based Apache Spark jobs, leveraging AWS EMR and AWS Glue, ensuring high-performance data transformation and efficient execution for complex big data workloads.",
     ],
-    achievements: [
-      "Cut nightly batch runtime by 60% by re-architecting the transformation layer around Delta Lake",
-      "Reduced pipeline incident volume by 45% after introducing automated data quality gates",
-      "Brought onboarding time for new data engineers down from 6 weeks to 2 by building a self-serve pipeline template",
-    ],
+    achievements: [],
   },
   {
-    id: "data-engineer",
+    id: "data-engineer-vizentec",
     role: "Data Engineer",
-    company: "Norwind Insurance",
-    startDate: "2021",
-    endDate: "2023",
-    summary:
-      "Built ingestion and transformation pipelines on AWS and Snowflake for claims and underwriting data, and introduced dbt-based testing to the analytics engineering workflow.",
+    company: "Vizentec",
+    startDate: "Sep 2023",
+    endDate: "May 2024",
+    summary: "Built a data platform for a mobility tech company, plus internal automation tools.",
     isCurrent: false,
-    industry: "Insurance",
-    teamSize: "4-person team",
+    industry: "Mobility",
+    teamSize: "4 engineers",
     isLead: false,
     tasks: [
-      "Build and maintain ingestion pipelines from claims and underwriting source systems into Snowflake",
-      "Write and review dbt models and tests for the core analytics marts",
-      "Set up AWS Lambda-based ingestion jobs for third-party data feeds",
-      "Support analysts with ad-hoc data extracts and pipeline troubleshooting",
+      "Constructed a Lakehouse analytical platform for a Brazilian mobility tech company to process both batch and streaming workloads. Orchestrated the ingestion of complex datasets from Apache Kafka, Cassandra, Oracle, and APIs utilizing Apache Airflow and Spark Structured Streaming. Transformed the ingested data by implementing a standardized modeling layer with dbt and SQL, unifying the Data Warehouse and Data Mart architectures and improving the team's development workflow.",
+      "Managed and optimized legacy data pipelines for a mobility tech company to ensure continuous data integrity and platform availability. Maintained existing ingestion workflows utilizing Apache NiFi, and fine-tuned high-volume Apache Spark workloads with Python and SQL. This optimization effort successfully reduced overall pipeline execution time and compute resource consumption for complex big data processing.",
+      "Built custom Python web applications to automate manual workflows for a tech company. Integrated these targeted tools directly into the broader data engineering and big data ecosystem, replacing manual data handling with programmatic solutions to improve overall operational efficiency.",
     ],
-    achievements: [
-      "Introduced dbt-based testing, catching an average of 12 data quality issues per month before they reached dashboards",
-      "Cut claims-data ingestion latency from 4 hours to 45 minutes by moving to incremental loads",
-      "Reduced manual data-fix tickets by 35% by adding source-side validation checks",
-    ],
+    achievements: [],
   },
   {
-    id: "junior-data-engineer",
-    role: "Junior Data Engineer",
-    company: "Cascata Analytics",
-    startDate: "2020",
-    endDate: "2021",
+    id: "data-engineer-cosmefar",
+    role: "Data Engineer",
+    company: "Cosmefar",
+    startDate: "Sep 2022",
+    endDate: "Sep 2023",
     summary:
-      "Maintained ETL jobs and internal reporting dashboards, and automated manual data-loading tasks with Python scripts and scheduled Airflow DAGs.",
+      "Built a pharmaceutics company's first data platform from scratch, powering sales and marketing.",
     isCurrent: false,
-    industry: "Analytics Consulting",
-    teamSize: "3-person team",
+    industry: "Pharmaceutics",
+    teamSize: "Solo (only engineer)",
     isLead: false,
     tasks: [
-      "Maintain and monitor existing ETL jobs feeding internal reporting dashboards",
-      "Write Python scripts to automate previously manual data-loading tasks",
-      "Build and schedule Airflow DAGs for recurring data-refresh jobs",
-      "Fix data discrepancies flagged by internal report consumers",
+      "Engineered an end-to-end data platform from scratch for a growing industrial company, utilizing a Dockerized Apache Airflow infrastructure to orchestrate the ingestion of data from ERP systems, internal CRMs, and the Google Ads API. Loaded this raw data into a PostgreSQL Data Warehouse, where it was transformed into Star Schema dimensional models using SQL. This unified architecture fully automates data delivery from source to visualization, empowering the Sales and Marketing teams with interactive Power BI dashboards.",
+      "Created automated web scraping pipelines using Python and Scrapy to replace manual market research workflows for an industrial company. Extracted and processed competitive market data, delivering the final structured datasets directly into Google Sheets to provide the commercial team with an automated, ready-to-use data feed.",
     ],
-    achievements: [
-      "Automated 8 previously manual data-loading tasks, saving roughly 6 hours of manual work per week",
-      "Cut dashboard refresh failures by 50% by adding retry logic and alerting to Airflow DAGs",
-    ],
+    achievements: [],
   },
 ];
