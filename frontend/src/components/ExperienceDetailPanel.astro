@@ -1,0 +1,209 @@
+---
+import Icon from "./Icon.astro";
+import { contactLinks } from "../data/contact-links.js";
+import type { ExperienceEntry } from "../data/experience-placeholder.js";
+
+interface Props {
+  entry: ExperienceEntry;
+}
+
+const { entry } = Astro.props;
+const emailLink = contactLinks.find((link) => link.kind === "email")!;
+---
+
+<div
+  class="panel"
+  data-panel={entry.id}
+  id={`panel-${entry.id}`}
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={`panel-title-${entry.id}`}
+  hidden
+>
+  <div class="title-bar">
+    <span class="title" id={`panel-title-${entry.id}`}>{entry.role} — {entry.company}</span>
+    <button type="button" class="close-button" data-panel-close aria-label="Close">
+      <Icon id="close" />
+    </button>
+  </div>
+
+  <div class="body">
+    <p class="echo">{`> cat experience/${entry.id}.md`}</p>
+
+    <dl class="metadata">
+      <div class="metadata-row">
+        <dt class="label">Position</dt>
+        <dd>{entry.role}</dd>
+      </div>
+      <div class="metadata-row">
+        <dt class="label">Industry</dt>
+        <dd>{entry.industry}</dd>
+      </div>
+      <div class="metadata-row">
+        <dt class="label">Team Size</dt>
+        <dd>{entry.teamSize}</dd>
+      </div>
+      {
+        entry.isLead && (
+          <div class="metadata-row">
+            <dt class="label">Lead</dt>
+            <dd>Yes</dd>
+          </div>
+        )
+      }
+    </dl>
+
+    <section class="bullets">
+      <h4 class="label">Tasks</h4>
+      <ul>
+        {entry.tasks.map((task) => <li>{task}</li>)}
+      </ul>
+    </section>
+
+    <section class="bullets">
+      <h4 class="label">Achievements</h4>
+      <ul>
+        {entry.achievements.map((achievement) => <li>{achievement}</li>)}
+      </ul>
+    </section>
+
+    <a class="contact-cta" href={emailLink.href}>{emailLink.label}</a>
+  </div>
+</div>
+
+<style>
+  .panel {
+    position: absolute;
+    inset: 0;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-base);
+    border: 1px solid var(--color-border);
+    font-family: "Space Mono", ui-monospace, monospace;
+  }
+
+  .panel[hidden] {
+    display: none;
+  }
+
+  .title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+    padding: var(--space-12) var(--space-16);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .title {
+    color: var(--color-ink);
+    font-size: var(--font-size-4);
+  }
+
+  .close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    color: var(--color-support);
+    transition: color var(--transition-hover);
+  }
+
+  .close-button:hover,
+  .close-button:focus-visible {
+    color: var(--color-accent);
+  }
+
+  .close-button :global(.icon) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-16);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .echo {
+    color: var(--color-support);
+    font-size: var(--font-size-4);
+  }
+
+  .metadata {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .metadata-row {
+    display: flex;
+    gap: var(--space-12);
+    font-size: var(--font-size-4);
+  }
+
+  .metadata-row .label {
+    flex-shrink: 0;
+    width: 100px;
+    color: var(--color-support);
+  }
+
+  .metadata-row dd {
+    margin: 0;
+    color: var(--color-ink);
+  }
+
+  .bullets .label {
+    color: var(--color-support);
+    margin-bottom: var(--space-8);
+  }
+
+  .bullets ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .bullets li {
+    position: relative;
+    padding-left: var(--space-16);
+    color: var(--color-ink);
+    font-size: var(--font-size-4);
+  }
+
+  .bullets li::before {
+    content: "-";
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+
+  .contact-cta {
+    display: block;
+    align-self: flex-start;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    background: transparent;
+    padding: var(--space-12) var(--space-24);
+    font-size: var(--font-size-3);
+    text-decoration: none;
+    transition: background-color var(--transition-hover), color var(--transition-hover);
+  }
+
+  .contact-cta:hover,
+  .contact-cta:focus-visible {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  @media (max-width: 767px) {
+    .panel {
+      height: 70vh;
+    }
+  }
+</style>

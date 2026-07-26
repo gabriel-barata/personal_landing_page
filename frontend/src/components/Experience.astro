@@ -3,6 +3,7 @@ import { experiencePlaceholder } from "../data/experience-placeholder.js";
 import { en } from "../data/i18n/en.js";
 import { pt } from "../data/i18n/pt.js";
 import I18nText from "./I18nText.astro";
+import ExperienceDetailPanel from "./ExperienceDetailPanel.astro";
 ---
 
 <section id="experience" class="experience" aria-label={en.sections.experience}>
@@ -13,27 +14,122 @@ import I18nText from "./I18nText.astro";
     <span class="chapter-title"><I18nText en={en.sections.experience} pt={pt.sections.experience} /></span>
   </h2>
 
-  <ol class="timeline">
-    {
-      experiencePlaceholder.map((entry) => (
-        <li class="entry">
-          <div class="rail">
-            <span class={`tick ${entry.isCurrent ? "tick-current" : ""}`} />
-          </div>
-          <p class="dates tabular-nums">
-            {entry.startDate} – {entry.endDate}
-          </p>
-          <div class="content">
-            <p class="role-line">
-              <span class="role">{entry.role}</span> · <span class="company">{entry.company}</span>
+  <div class="timeline-wrap">
+    <ol class="timeline">
+      {
+        experiencePlaceholder.map((entry) => (
+          <li class="entry">
+            <div class="rail">
+              <span class={`tick ${entry.isCurrent ? "tick-current" : ""}`} />
+            </div>
+            <p class="dates tabular-nums">
+              {entry.startDate} – {entry.endDate}
             </p>
-            <p class="summary">{entry.summary}</p>
-          </div>
-        </li>
-      ))
-    }
-  </ol>
+            <div class="content">
+              <p class="role-line">
+                <span class="role">{entry.role}</span> · <span class="company">{entry.company}</span>
+              </p>
+              <p class="summary">{entry.summary}</p>
+              <button
+                type="button"
+                class="details-button"
+                data-panel-open={entry.id}
+                aria-controls={`panel-${entry.id}`}
+              >
+                Details
+              </button>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    {experiencePlaceholder.map((entry) => <ExperienceDetailPanel entry={entry} />)}
+  </div>
 </section>
+
+<script>
+  import { nextFocusIndex } from "../lib/experience-panel.js";
+
+  const timeline = document.querySelector<HTMLOListElement>(".timeline");
+  const panels = document.querySelectorAll<HTMLElement>("[data-panel]");
+  const openButtons = document.querySelectorAll<HTMLButtonElement>("[data-panel-open]");
+
+  let triggerButton: HTMLButtonElement | null = null;
+
+  function getPanel(id: string): HTMLElement | undefined {
+    return Array.from(panels).find((panel) => panel.dataset.panel === id);
+  }
+
+  function getFocusableElements(panel: HTMLElement): HTMLElement[] {
+    return Array.from(
+      panel.querySelectorAll<HTMLElement>('button, a[href], [tabindex]:not([tabindex="-1"])'),
+    );
+  }
+
+  function openPanel(id: string, trigger: HTMLButtonElement) {
+    const target = getPanel(id);
+    if (!target || !timeline) return;
+
+    for (const panel of panels) {
+      if (panel !== target) {
+        panel.hidden = true;
+      }
+    }
+
+    target.hidden = false;
+    timeline.inert = true;
+    triggerButton = trigger;
+
+    const focusable = getFocusableElements(target);
+    focusable[0]?.focus();
+  }
+
+  function closeOpenPanel() {
+    const openPanelEl = Array.from(panels).find((panel) => !panel.hidden);
+    if (!openPanelEl || !timeline) return;
+
+    openPanelEl.hidden = true;
+    timeline.inert = false;
+
+    const trigger = triggerButton;
+    triggerButton = null;
+    trigger?.focus();
+  }
+
+  for (const button of openButtons) {
+    button.addEventListener("click", () => {
+      const id = button.dataset.panelOpen;
+      if (id) openPanel(id, button);
+    });
+  }
+
+  for (const panel of panels) {
+    const closeButton = panel.querySelector<HTMLButtonElement>("[data-panel-close]");
+    closeButton?.addEventListener("click", () => closeOpenPanel());
+
+    panel.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") return;
+
+      const focusable = getFocusableElements(panel);
+      if (focusable.length === 0) return;
+
+      const currentIndex = focusable.indexOf(document.activeElement as HTMLElement);
+      const direction = event.shiftKey ? -1 : 1;
+      const nextIndex = nextFocusIndex(currentIndex === -1 ? 0 : currentIndex, focusable.length, direction);
+
+      event.preventDefault();
+      focusable[nextIndex]?.focus();
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    const isOpen = Array.from(panels).some((panel) => !panel.hidden);
+    if (!isOpen) return;
+    closeOpenPanel();
+  });
+</script>
 
 <style>
   .experience {
@@ -44,6 +140,10 @@ import I18nText from "./I18nText.astro";
 
   .chapter-heading {
     margin-bottom: var(--space-24);
+  }
+
+  .timeline-wrap {
+    position: relative;
   }
 
   .timeline {
@@ -125,6 +225,23 @@ import I18nText from "./I18nText.astro";
   .summary {
     color: var(--color-ink);
     font-size: var(--font-size-4);
+  }
+
+  .details-button {
+    align-self: flex-start;
+    margin-top: var(--space-8);
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    background: transparent;
+    padding: var(--space-8) var(--space-16);
+    font-size: var(--font-size-4);
+    transition: background-color var(--transition-hover), color var(--transition-hover);
+  }
+
+  .details-button:hover,
+  .details-button:focus-visible {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
   }
 
   @media (max-width: 767px) {
