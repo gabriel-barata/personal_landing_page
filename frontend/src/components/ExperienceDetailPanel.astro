@@ -1,5 +1,4 @@
 ---
-import Icon from "./Icon.astro";
 import { contactLinks } from "../data/contact-links.js";
 import type { ExperienceEntry } from "../data/experience-placeholder.js";
 
@@ -22,8 +21,18 @@ const emailLink = contactLinks.find((link) => link.kind === "email")!;
 >
   <div class="title-bar">
     <span class="title" id={`panel-title-${entry.id}`}>{entry.role} — {entry.company}</span>
-    <button type="button" class="close-button" data-panel-close aria-label="Close">
-      <Icon id="close" />
+    <button type="button" class="close-btn" data-panel-close aria-label="Close">
+      <svg viewBox="0 0 5 5" width="10" height="10" aria-hidden="true" focusable="false" shape-rendering="crispEdges">
+        <rect x="0" y="0" width="1" height="1" fill="currentColor" />
+        <rect x="4" y="0" width="1" height="1" fill="currentColor" />
+        <rect x="1" y="1" width="1" height="1" fill="currentColor" />
+        <rect x="3" y="1" width="1" height="1" fill="currentColor" />
+        <rect x="2" y="2" width="1" height="1" fill="currentColor" />
+        <rect x="1" y="3" width="1" height="1" fill="currentColor" />
+        <rect x="3" y="3" width="1" height="1" fill="currentColor" />
+        <rect x="0" y="4" width="1" height="1" fill="currentColor" />
+        <rect x="4" y="4" width="1" height="1" fill="currentColor" />
+      </svg>
     </button>
   </div>
 
@@ -82,21 +91,24 @@ const emailLink = contactLinks.find((link) => link.kind === "email")!;
     flex-direction: column;
     background: var(--color-base);
     border: 1px solid var(--color-border);
-    border-top: 3px solid var(--color-accent);
     font-family: "Space Mono", ui-monospace, monospace;
-    animation: panel-open 200ms ease-out;
+    animation: panel-open 160ms steps(4, end);
   }
 
   .panel[hidden] {
     display: none;
   }
 
+  /* Opening flicker — a hard-step reveal (no easing curve) rather than a
+     smooth fade, so it reads as a screen snapping on rather than a modern
+     window animating in. Close stays instant (visual-direction decision 21,
+     2026-07-26 retro reversal). */
   @keyframes panel-open {
     from {
-      clip-path: inset(0 0 100% 0);
+      opacity: 0;
     }
     to {
-      clip-path: inset(0 0 0 0);
+      opacity: 1;
     }
   }
 
@@ -112,32 +124,47 @@ const emailLink = contactLinks.find((link) => link.kind === "email")!;
     justify-content: space-between;
     gap: var(--space-16);
     padding: var(--space-12) var(--space-16);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-accent);
     flex-shrink: 0;
   }
 
   .title {
-    color: var(--color-ink);
+    color: var(--color-accent-ink);
     font-size: var(--font-size-4);
+    text-align: left;
   }
 
-  .close-button {
-    display: flex;
+  /* Beveled square close control — Windows 3.1/95-style raised button,
+     replacing the macOS traffic-light dots (visual-direction decision 21,
+     2026-07-26 retro reversal). Highlight/shadow edges reuse the existing
+     neutral ramp (tokens.css) rather than adding new colors. */
+  .close-btn {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-4);
-    color: var(--color-support);
-    transition: color var(--transition-hover);
+    padding: 0;
+    background: var(--bevel-face);
+    color: var(--color-ink);
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--bevel-highlight) var(--bevel-shadow) var(--bevel-shadow) var(--bevel-highlight);
+    cursor: pointer;
+    transition: color var(--transition-hover), border-color var(--transition-hover);
   }
 
-  .close-button:hover,
-  .close-button:focus-visible {
+  .close-btn:hover,
+  .close-btn:focus-visible {
     color: var(--color-accent);
+    border-top-color: var(--color-accent);
+    border-left-color: var(--color-accent);
   }
 
-  .close-button :global(.icon) {
-    width: 12px;
-    height: 12px;
+  .close-btn:active {
+    border-color: var(--bevel-shadow) var(--bevel-highlight) var(--bevel-highlight) var(--bevel-shadow);
+    transform: translate(1px, 1px);
   }
 
   .body {
@@ -230,22 +257,32 @@ const emailLink = contactLinks.find((link) => link.kind === "email")!;
     }
   }
 
+  /* Beveled CTA — matches the close button's raised treatment
+     (visual-direction decision 21, 2026-07-26 retro reversal). */
   .contact-cta {
     display: block;
     align-self: center;
-    border: 1px solid var(--color-accent);
-    color: var(--color-accent);
-    background: transparent;
+    background: var(--bevel-face);
+    color: var(--color-ink);
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--bevel-highlight) var(--bevel-shadow) var(--bevel-shadow) var(--bevel-highlight);
     padding: var(--space-12) var(--space-24);
     font-size: var(--font-size-3);
     text-decoration: none;
-    transition: background-color var(--transition-hover), color var(--transition-hover);
+    transition: color var(--transition-hover), border-color var(--transition-hover);
   }
 
   .contact-cta:hover,
   .contact-cta:focus-visible {
-    background: var(--color-accent);
-    color: var(--color-accent-ink);
+    color: var(--color-accent);
+    border-top-color: var(--color-accent);
+    border-left-color: var(--color-accent);
+  }
+
+  .contact-cta:active {
+    border-color: var(--bevel-shadow) var(--bevel-highlight) var(--bevel-highlight) var(--bevel-shadow);
+    transform: translate(1px, 1px);
   }
 
   @media (max-width: 767px) {

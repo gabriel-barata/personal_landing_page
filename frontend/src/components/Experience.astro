@@ -9,7 +9,7 @@ import ExperienceDetailPanel from "./ExperienceDetailPanel.astro";
 <section id="experience" class="experience" aria-label={en.sections.experience}>
   <div class="chapter-divider" aria-hidden="true"><span class="chapter-tick"></span></div>
   <h2 class="chapter-heading">
-    <span class="chapter-number">01/03</span>
+    <span class="chapter-number">01/04</span>
     <span class="chapter-rule" aria-hidden="true"></span>
     <span class="chapter-title"><I18nText en={en.sections.experience} pt={pt.sections.experience} /></span>
   </h2>
@@ -227,21 +227,33 @@ import ExperienceDetailPanel from "./ExperienceDetailPanel.astro";
     font-size: var(--font-size-4);
   }
 
+  /* Beveled button — Windows 3.1/95-style raised treatment, scoped to the
+     Experience detail panel's own controls only (visual-direction decision
+     21, 2026-07-26 retro reversal). Site-wide buttons elsewhere keep
+     decision 11's flat outline/fill style unchanged. */
   .details-button {
     align-self: flex-start;
     margin-top: var(--space-8);
-    border: 1px solid var(--color-accent);
-    color: var(--color-accent);
-    background: transparent;
+    background: var(--bevel-face);
+    color: var(--color-ink);
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--bevel-highlight) var(--bevel-shadow) var(--bevel-shadow) var(--bevel-highlight);
     padding: var(--space-8) var(--space-16);
     font-size: var(--font-size-4);
-    transition: background-color var(--transition-hover), color var(--transition-hover);
+    transition: color var(--transition-hover), border-color var(--transition-hover);
   }
 
   .details-button:hover,
   .details-button:focus-visible {
-    background: var(--color-accent);
-    color: var(--color-accent-ink);
+    color: var(--color-accent);
+    border-top-color: var(--color-accent);
+    border-left-color: var(--color-accent);
+  }
+
+  .details-button:active {
+    border-color: var(--bevel-shadow) var(--bevel-highlight) var(--bevel-highlight) var(--bevel-shadow);
+    transform: translate(1px, 1px);
   }
 
   @media (max-width: 767px) {

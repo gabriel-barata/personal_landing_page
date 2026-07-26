@@ -17,9 +17,10 @@ export interface Dictionary {
   sections: {
     experience: string;
     techStack: string;
-    educationCertifications: string;
     certifications: string;
+    educationProjects: string;
     education: string;
+    projects: string;
     contact: string;
   };
   microcopy: {
@@ -51,9 +52,10 @@ export const en: Dictionary = {
   sections: {
     experience: "Experience",
     techStack: "Tech Stack",
-    educationCertifications: "Education & Certifications",
     certifications: "Certifications",
+    educationProjects: "Education & Projects",
     education: "College",
+    projects: "Projects",
     contact: "Contact",
   },
   microcopy: {
