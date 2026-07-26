@@ -45,11 +45,3 @@ still undecided.
 2. footnote/moving - add the current time at my location
 3. something that interact with the page scrolling - need think about this
 4. section with what I'm studying at the moment
-5. expansible experiences -> small text then if the user clicks he can see a bigger, highlighted experience with all details
-
-## To-Do
-1. Review the pallete with Claude Design
-
-
-1. Corrigir o espaçamento que está ridiculo -> experienciaas / tech stack
-2. Tech Stack está um absoluto CAOS

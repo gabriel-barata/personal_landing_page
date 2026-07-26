@@ -65,7 +65,22 @@ const emailLink = contactLinks.find((link) => link.kind === "email")!;
     <section class="bullets">
       <h4 class="label">Tasks</h4>
       <ul>
-        {entry.tasks.map((task) => <li>{task}</li>)}
+        {
+          entry.tasks.map((task) =>
+            typeof task === "string" ? (
+              <li>{task}</li>
+            ) : (
+              <li>
+                {task.text}
+                <ul class="nested">
+                  {task.children.map((child) => (
+                    <li>{child}</li>
+                  ))}
+                </ul>
+              </li>
+            ),
+          )
+        }
       </ul>
     </section>
 
@@ -227,6 +242,18 @@ const emailLink = contactLinks.find((link) => link.kind === "email")!;
     position: absolute;
     left: 0;
     color: var(--color-accent);
+  }
+
+  .bullets li .nested {
+    margin-top: var(--space-8);
+    margin-left: var(--space-16);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .bullets li .nested li::before {
+    content: "·";
   }
 
   .cursor-line {

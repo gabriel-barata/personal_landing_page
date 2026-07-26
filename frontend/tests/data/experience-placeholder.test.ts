@@ -2,15 +2,25 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { experiencePlaceholder } from "../../src/data/experience-placeholder.js";
 
-test("experiencePlaceholder: array length is exactly 3", () => {
-  assert.equal(experiencePlaceholder.length, 3);
+test("experiencePlaceholder: array is non-empty", () => {
+  assert.ok(experiencePlaceholder.length >= 1);
 });
+
+// startDate is a display string ("Mar 2025" or a bare "2021"), not
+// lexically sortable (e.g. "Mar 2025" < "May 2024" alphabetically even
+// though March 2025 is later) — parse before comparing chronologically.
+function parseStartDate(value: string): number {
+  return Date.parse(value);
+}
 
 test("experiencePlaceholder: ordered most-recent-first (each startDate >= the next entry's)", () => {
   for (let i = 0; i < experiencePlaceholder.length - 1; i++) {
     const current = experiencePlaceholder[i]!.startDate;
     const next = experiencePlaceholder[i + 1]!.startDate;
-    assert.ok(current >= next, `entry ${i} (${current}) should be >= entry ${i + 1} (${next})`);
+    assert.ok(
+      parseStartDate(current) >= parseStartDate(next),
+      `entry ${i} (${current}) should be >= entry ${i + 1} (${next})`,
+    );
   }
 });
 

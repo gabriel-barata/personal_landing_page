@@ -2,6 +2,7 @@
 import { experiencePlaceholder } from "../data/experience-placeholder.js";
 import { en } from "../data/i18n/en.js";
 import { pt } from "../data/i18n/pt.js";
+import { formatExperienceDate } from "../lib/format-date.js";
 import I18nText from "./I18nText.astro";
 import ExperienceDetailPanel from "./ExperienceDetailPanel.astro";
 ---
@@ -23,7 +24,7 @@ import ExperienceDetailPanel from "./ExperienceDetailPanel.astro";
               <span class={`tick ${entry.isCurrent ? "tick-current" : ""}`} />
             </div>
             <p class="dates tabular-nums">
-              {entry.startDate} – {entry.endDate}
+              {formatExperienceDate(entry.startDate)} – {formatExperienceDate(entry.endDate)}
             </p>
             <div class="content">
               <p class="role-line">
@@ -156,7 +157,7 @@ import ExperienceDetailPanel from "./ExperienceDetailPanel.astro";
   .entry {
     position: relative;
     display: grid;
-    grid-template-columns: 96px 1fr;
+    grid-template-columns: 160px 1fr;
     column-gap: var(--space-24);
   }
 
@@ -164,7 +165,7 @@ import ExperienceDetailPanel from "./ExperienceDetailPanel.astro";
     position: absolute;
     top: 0;
     bottom: calc(-1 * var(--space-24));
-    left: 96px;
+    left: 160px;
     width: 1px;
     background: var(--color-border);
   }
