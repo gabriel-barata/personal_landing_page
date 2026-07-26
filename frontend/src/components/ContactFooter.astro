@@ -22,9 +22,21 @@ import I18nText from "./I18nText.astro";
 
 <style>
   .contact-footer {
+    display: flex;
+    flex-direction: column;
     padding: var(--section-gap) var(--space-24) var(--space-24);
     max-width: 900px;
     margin: 0 auto;
+  }
+
+  /* Closing bookend to Hero (visual-direction decision 20): one section per
+     screen on desktop, content centered like Hero rather than top-aligned,
+     since footer has no chapter heading to anchor to. */
+  @media (min-width: 768px) {
+    .contact-footer {
+      min-height: calc(100vh - var(--header-height));
+      justify-content: center;
+    }
   }
 
   .visually-hidden {

@@ -10,6 +10,53 @@ several with revised decisions from a grill-me session that resolved every
 
 ## Revision history
 
+- **2026-07-26 (Experience detail panel, grill-me session):** new decision 21
+  — each Experience entry (decision 7) gains a "Details" button that opens a
+  terminal-styled, opaque, non-full-screen panel layered over the entry list,
+  showing Position/Industry/Team Size/Lead metadata plus detailed
+  tasks/achievements bullets and a contact CTA. Resolves how to add this depth
+  without reopening decision 5 (no shadows), decision 10 (near-zero motion),
+  or decision 1 (single column, no floating chrome) — depth is conveyed by
+  partial coverage alone (page visibly peeking around the panel), not a
+  shadow or scrim; open/close is instant, matching decision 18's dark-mode-
+  toggle precedent rather than introducing a new transition; the panel stays
+  anchored to the existing 900px column rather than floating independently.
+  Cascading: decision 17's Silkscreen scope is explicitly *not* extended —
+  the panel's close control is a separate pixel-art icon, not a third
+  Silkscreen usage. Decision 6's "2–3 line impact summary max" per entry is
+  unchanged (a paragraph, not bullets — considered and reverted back to
+  prose during this session) and now also gets the new "Details" button
+  appended after it. Data model for the new panel fields (Industry, Team
+  Size, Lead flag, detailed tasks, achievements) is scoped to frontend
+  placeholder data only for now, per CLAUDE.md's existing note that
+  `resume.json` wiring is deferred future work.
+- **2026-07-26 (full-viewport section containment, grill-me session):** new
+  decision 20 — decision 3's hero-viewport-containment mechanism
+  (`min-height: calc(100vh - header-height)`, desktop-only) is generalized to
+  every section: Experience, Tech Stack, Certifications/Education, and
+  Contact/footer. Each now occupies at least one full viewport on desktop, so
+  scrolling reveals one section at a time instead of several partial sections
+  stacked in the same view. Experience/Tech Stack/Cert-Edu stay top-aligned
+  (content starts at the chapter heading, slack pools at the bottom);
+  Contact/footer is centered like Hero, making it a closing bookend. Sections
+  taller than one viewport grow past the floor, the same fallback decision 3
+  already accepts for Hero. Mobile is unchanged (natural flow, decision 3's
+  existing precedent). The seam divider (decision 19) is unchanged in size
+  and spacing — it now lands at the top of each fresh screen instead of
+  mid-scroll.
+- **2026-07-25 (Tech Stack reorganization, grill-me session):** decision 4
+  rewritten — icons dropped from the Tech Stack section entirely (plaintext
+  item labels only; the icon-sourcing requirement now scopes to the hero's
+  5-icon row only, decision 3). Categories are now individually boxed
+  (hairline border, square corners, no shadow, `--color-base` fill — no tint,
+  since the retained hover-accent item text must not sit on a tinted
+  background per decision 8) and laid out as a 2-column CSS multi-column flow
+  on desktop, replacing the previous whitespace-only category separation.
+  Item hover-to-accent color-shift is retained even though items aren't
+  links, as a deliberate scanning cue. Cascading: decision 3 gets a
+  correcting note — its 2026-07-24 amendment's claim that hero icon styling
+  is "consistent with the Tech Stack section" no longer holds now that Tech
+  Stack has no icons.
 - **2026-07-25 (Education & Certifications restructure, grill-me session):**
   decision 19 amended. Chapter `03` was "Certifications" with "Education" as
   an unnumbered sub-heading, which read as two unrelated sections rather than
@@ -187,13 +234,62 @@ touch — this specific label is a scoped exception set at 15px; every other
 small-uppercase-label instance on the page (role/title line, category
 headers, etc.) stays at 13px, since only this one is accent-colored.
 
-### 4. Tech Stack section: category-grouped, icon + label
+**Amended 2026-07-25 (Tech Stack reorg, grill-me session):** this section's
+2026-07-24 amendment described the hero icon treatment as "consistent with
+the Tech Stack section, decision 4." That's no longer accurate — decision 4
+dropped icons from Tech Stack entirely (see its 2026-07-25 amendment). The
+hero's 5-icon row is unchanged and is now the page's only icon usage outside
+the monogram; the two sections are no longer stylistically aligned on this
+point, an accepted trade-off given their different scope (5 curated,
+universally-recognized brand marks here vs. 43 mixed-recognizability tools
+there).
 
-Grouped by category as small uppercase mono labels. Each category lists items
-as **monochrome icon + text label**, ink-colored at rest, accent-colored only
-on hover. No filled badges, no logos in brand color. Category blocks stack
-vertically at the section-internal spacing tokens (decision 9); items within
-a category wrap horizontally with tight gaps.
+### 4. Tech Stack section: category-grouped boxes, plaintext labels
+
+Grouped by category as small uppercase mono labels. Each category is wrapped
+in its own hairline-bordered box (decision 5: square corners, 1px
+`--color-border`, no shadow, `--color-base` fill — no tint) containing the
+category label and its item list. Items are **plaintext labels only** (no
+icons) — ink-colored at rest, accent-colored on hover/focus as a scanning
+cue. Category boxes lay out as a 2-column CSS multi-column flow on desktop
+(`column-count: 2`), each box sized to its own natural height rather than
+paired row-by-row, collapsing to a single column under the 768px breakpoint
+(decision 12). Items within a box wrap horizontally as discrete tokens at the
+section-internal spacing tokens (decision 9) — no separator, no icon.
+
+**Amended 2026-07-25 (Tech Stack reorg, grill-me session):** the icon+label
+treatment previously described here (and referenced as "unaffected" by the
+2026-07-25 audit amendment below) is superseded — icons are dropped from
+this section entirely; plaintext-only labels are now the standing treatment.
+Icon sourcing (below) is scoped to the hero row only.
+
+Motivated by two compounding problems: the self-hosted icon set (Simple
+Icons-sourced) had inconsistent stroke weight/style across the 43 items,
+reading as visually noisy; and several items (e.g. "RAG," a technique rather
+than a product) have no real brand mark, making an icon there decorative
+filler rather than a recognizable signal. Rather than curating a better icon
+set, plaintext removes the recognizability problem outright and better
+matches the page's "résumé, not portfolio" principle — real skills lists are
+plaintext, and the hero's 5-icon row (decision 3) already carries the page's
+one deliberate icon moment, reserved for genuinely famous, universally
+recognized brand marks (AWS, Databricks, Azure, Snowflake, Claude), a bar
+none of Tech Stack's 43 items uniformly clears.
+
+Per-category boxes (hairline border, decision 5) address a separate "messy"
+complaint: categories were previously separated only by a support-gray label
+and whitespace, reading as ambiguous grouping — especially for short
+categories (e.g. Cloud, 2 items) sitting flush against neighbors. A literal
+container makes each category's boundary unambiguous. Boxes lay out via CSS
+multi-column rather than a row-paired grid because category sizes range from
+2 to 9 items — a strict grid would leave visible dead space under short boxes
+paired with tall ones in the same row; multi-column lets each box flow to its
+natural height instead.
+
+Item hover-to-accent is kept despite items not being links — a deliberate
+exception to decision 8's "accent signals interactivity" framing, treated
+here as a scanning/engagement cue rather than an interactivity signal.
+Because of this, box fill must stay `--color-base` (no tint), so hovered item
+text never sits on a tinted background, per decision 8's standing rule.
 
 **Amended 2026-07-25 (audit):** this decision originally named four
 illustrative categories (`LANGUAGES`, `DATA & PIPELINES`, `CLOUD & INFRA`,
@@ -205,26 +301,30 @@ Cloud, ML Frameworks & Tools, Programming Frameworks, Others. This supersedes
 the four-category illustration above; `frontend/src/data/tech-stack.ts` and
 `tests/data/tech-stack.test.ts` are the source of truth for exact categories
 and items going forward. The rendering treatment described below (monochrome
-icon + label, accent-on-hover, spacing) is unaffected — only the taxonomy
-changed.
+icon + label, accent-on-hover, spacing) was unaffected *at the time of this
+amendment* — the icon+label treatment itself was later superseded by the
+2026-07-25 "Tech Stack reorg" amendment above (plaintext + boxes); only the
+taxonomy fixed by this amendment (8 categories, 43 items) still stands.
 
 **Why:** answers the andy-hk.com reference (organized, clear stack at a
 glance) while fixing its main flaw (too much whitespace) via the spacing
-scale, and keeping icons monochrome preserves the "~90% neutral" palette rule
-that full-color brand logos would break.
+scale and per-category boxes; dropping icons (per the reorg amendment above)
+preserves the "~90% neutral" palette rule even more directly than the
+originally-monochrome icons did.
 
-**Icon sourcing (required, not optional):** all icons — Tech Stack section
-and the hero platform row (decision 3) — are self-hosted: SVGs sourced from a
+**Icon sourcing (required, not optional):** following the Tech Stack reorg
+amendment above, the hero platform row (decision 3) is now the only surviving
+usage this rule applies to. Icons there are self-hosted: SVGs sourced from a
 monochrome/single-path set (e.g. Simple Icons, Tabler), recolored via CSS
-`fill`/`currentColor`, and committed into the repo (e.g.
-`frontend/public/icons/` or as inlined components). No runtime CDN fetch to
-Simple Icons/Tabler or any third party.
+`fill`/`currentColor`, and committed into the repo
+(`frontend/public/icons/`). No runtime CDN fetch to any third party.
 
 **Amended 2026-07-24:** the Claude Design prototype loaded icons live from a
 CDN. Fine for a fast draft, but doesn't carry into the real build — matches
 the existing self-hosted-fonts precedent (no external network dependency on
 page load, no FOUC while a CDN request resolves, no risk of an icon set
-changing or breaking under you).
+changing or breaking under you). (Historical note: applied to Tech Stack
+icons at the time; now relevant to the hero row only per the reorg above.)
 
 **Amended 2026-07-25:** item labels (e.g. "Databricks", "Python") were never
 given an explicit size — only the category headers were pinned to the 13px
@@ -580,6 +680,158 @@ pushed back against (see Context), and duplicates exactly what decisions 1,
 numbered heading and divider gives the "something happens here" moment the
 page was missing, without reopening near-zero-motion or introducing
 persistent global chrome.
+
+### 20. Full-viewport section containment
+
+Extends decision 3's hero-viewport mechanism to every section, closing the
+gap between Hero's "one full screen" feel and the thinner, document-like
+`--section-gap` transitions used for Experience/Tech Stack/Cert-Edu/Contact
+(decision 9). Motivated by wanting the whole page, not just the
+Hero→Experience transition, to read as "one section at a time" rather than
+several partial sections visible in the same view.
+
+**Mechanism:** on desktop (≥768px) only, every section — Experience, Tech
+Stack, Certifications/Education, and Contact/footer — gets `min-height:
+calc(100vh - header-height)`, the same formula decision 3 already uses for
+Hero. Natural scroll only; no CSS scroll-snap. A section taller than one
+viewport simply grows past that floor (never clipped or independently
+scrollable) — the same fallback decision 3 already accepts for Hero.
+
+**Alignment:** Experience, Tech Stack, and Certifications/Education stay
+top-aligned — the chapter heading (decision 19) sits right after the seam
+divider, and any leftover space when content is shorter than one viewport
+collects at the bottom of the section, before the next section's divider.
+This differs from Hero, which centers its content; these sections have a
+heading to anchor to, Hero doesn't. Contact/footer, however, is centered
+like Hero — with no chapter heading of its own, it functions as the page's
+closing bookend rather than another "chapter," so it gets Hero's treatment,
+not the chapter sections'.
+
+**Divider unaffected:** decision 19's seam divider (hairline + tick,
+`calc(section-gap/2)` split) is unchanged in size, style, and spacing. It
+now sits at the very top of each fresh viewport rather than partway down a
+continuous scroll, but the "why" (a static, non-scroll-linked arrival
+marker, decision 10) still holds — the mark itself doesn't need to change to
+signal a bigger transition, since the transition itself (a full viewport of
+scroll) now does that work.
+
+**Mobile:** unchanged — natural content-height flow, no `min-height`
+applied, same as decision 3's existing desktop-only scoping. Mobile content
+already runs proportionally taller relative to viewport height, and forcing
+full-viewport sections there would mean scrolling past large empty areas on
+already-cramped screens.
+
+**Scope note (decision 19):** decision 19's "Does not apply to the
+Contact/footer section" language refers only to the *numbered chapter
+heading and seam divider* — that's unchanged, Contact/footer still has no
+chapter number. This decision's viewport-containment mechanism is a
+separate, additional layer that now does apply to Contact/footer.
+
+**Why:** for the user, an uncluttered interface where only one section is
+ever in view at a time is the priority — partial sections stacking in the
+same screen reads as "polluted." Reusing decision 3's exact mechanism
+(rather than inventing a new one, e.g. CSS scroll-snap) keeps the page's
+scroll feel uniform and avoids the added complexity/edge cases (fighting OS
+scroll gestures, sticky header interaction, variable content height) that
+scroll-snap would introduce for comparatively little benefit over natural
+min-height flow.
+
+### 21. Experience detail panel: terminal-style overlay
+
+Each Experience entry (decision 7) gains a **"Details"** button, plain-text
+labeled and styled per decision 11 (outline at rest, filled on hover, ≥15px),
+appended after its 2–3 line summary. Clicking it opens a panel with more
+depth on that role — Position, Industry, Team Size, detailed tasks, and
+achievements/metrics — without leaving the page or breaking this doc's
+existing restraint on shadows, motion, or floating chrome.
+
+**Trigger & scope:** only one panel open at a time. Opening a different
+entry's panel requires closing the current one first — the covered entries
+sit behind the open panel and aren't independently reachable while it's open.
+
+**Structure & positioning:** the panel is a **terminal-styled, opaque
+square**, layered on top of the page — not a full-screen modal, no dimming
+scrim. It's anchored to the existing **900px content column** (same
+left/right edges as everything else on the page — decision 1's single-column
+discipline is unaffected, nothing floats independently of that column), and
+opens **below the "01/03 Experience" chapter heading and seam divider**
+(decision 19), which stays visible while the panel is open — the panel
+replaces/covers the timeline list area only, not the section's identity.
+
+**Sizing:** **fixed height** (viewport-relative, e.g. `~80vh`), **internally
+scrollable** if content overflows — a real terminal has fixed bounds and
+scrollback, and this keeps page content visible above/below the panel
+regardless of how much content a given entry has.
+
+**Depth cue without shadows:** decision 5 bans box-shadows and decision 10
+bans new motion/dimming flourishes, so the panel signals "this is layered on
+top of something" purely through **partial coverage** — it's smaller than the
+viewport, so the page (chapter heading above, and page content below when the
+panel is shorter than the remaining section) is visibly exposed around it.
+No scrim, no darkening of the page behind it.
+
+**Motion:** open/close is **instant** — no fade, slide, or scale transition.
+This follows decision 18's dark-mode-toggle precedent (an even bigger visual
+change, deliberately kept instant rather than treated as a decision-10-style
+short-transition exception) rather than inventing a new motion allowance for
+this panel specifically.
+
+**Chrome:** a **title bar** at the top, plain text `Role — Company` (no fake
+shell-prompt styling here — see body content below for where that idea
+lives), hairline-bordered, square-cornered per decision 5. Top-right of the
+title bar carries a small **pixel-art X icon** — a hand-built SVG glyph, not
+the Silkscreen typeface — that closes the panel. Decision 17's Silkscreen
+scope stays at exactly two uses (monogram, chapter numbers); this is a
+deliberate choice not to add a third.
+
+**Closing:** the X button or the **Escape key**. No click-outside-to-dismiss
+— the exposed page area around the panel is small enough that accidental
+outside clicks while interacting with the panel would too easily lose the
+user's place.
+
+**Body content, top to bottom:**
+
+1. A single **static, non-animated fake command line** — e.g.
+   `> cat experience/senior-data-engineer.md` — the panel's one "terminal
+   flavor" moment, deliberately kept out of the title bar (which stays plain
+   for legibility) and out of the trigger button (which stays a plain
+   "Details" label) so it doesn't dilute across multiple places.
+2. A **metadata block**: stacked `LABEL: value` lines (support-gray label,
+   ink value, matching the small-uppercase label convention used elsewhere —
+   decision 4's category labels, decision 19's chapter number) for Position,
+   Industry, Team Size, and **Lead** — the Lead line is **omitted entirely**
+   for roles where it doesn't apply, not shown as an explicit "NO".
+3. Two **labeled bullet sub-sections** — `TASKS` (detailed responsibilities)
+   and `ACHIEVEMENTS` (metrics/impact) — each with its own small-uppercase
+   label, reusing the sub-section label pattern from Tech Stack categories
+   and decision 19's Education & Certifications restructure, rather than one
+   undifferentiated bullet list.
+4. A **big contact button** — larger size only, same outline-at-rest /
+   filled-on-hover style as every other button on the page (decision 11 is
+   not broken for this one case) — triggers the same direct `mailto:` action
+   as the hero's email CTA (decision 3, item 6).
+
+**Mobile (<768px, decision 12):** the terminal concept is kept, adapted
+rather than replaced with a different pattern — the panel becomes full-width
+(matching mobile's existing layout) but keeps its fixed-height/internal-
+scroll/title-bar behavior, so the depth cue becomes **vertical-only** (page
+content visible above/below, not at the sides) instead of disappearing
+entirely into a plain full-screen takeover.
+
+**Data scope:** the new fields this panel needs (Industry, Team Size, Lead
+flag, detailed tasks, achievements) are added to the **frontend placeholder
+data only** (`experience-placeholder.ts`) — no changes to `schema/` or the
+pipeline. Real `resume.json` wiring, and how these fields would actually be
+authored in the source Google Doc, stays deferred per CLAUDE.md's existing
+scope note.
+
+**Why:** the brief asked for "something different" for Experience without
+turning the page into a portfolio-app pattern this doc has consistently
+pushed back on (decisions 1, 10, 13). A terminal-window metaphor gives a
+distinct, tech-flavored interaction while every constraint that makes it
+*feel* restrained instead of app-like — no shadow, no scrim, no fade, no
+floating-outside-the-column — is satisfied by rules this doc already
+established for other components, rather than by carving out exceptions.
 
 ## Carried over unchanged from the original draft
 

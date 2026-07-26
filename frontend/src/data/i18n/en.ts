@@ -36,9 +36,9 @@ export const en: Dictionary = {
     name: "Emanuel Barata",
     role: "Data Engineer / Forward Deployed Engineer — FSI",
     summary:
-      "Data engineer building reliable pipelines and platforms for banks and insurers, from ingestion through to production ML.",
-    location: "LISBON, PT",
-    yearsExperience: 6,
+      "Architects scalable Lakehouse platforms and leads cloud migrations using Python, Spark, and Terraform. Recent work: event-driven ELT pipelines, CI/CD infrastructure-as-code governance, and modernizing legacy warehouses into decentralized architectures. Trilingual, focused on robust data engineering.",
+    location: "GOIÂNIA, BR",
+    yearsExperience: 4,
     yearsExperienceSuffix: "Y EXPERIENCE",
     coreStack: [
       { id: "databricks", label: "Databricks", iconId: "databricks" },

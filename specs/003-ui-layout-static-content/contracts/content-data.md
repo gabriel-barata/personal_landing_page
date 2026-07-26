@@ -24,16 +24,19 @@ Counts: 5 + 9 + 7 + 5 + 2 + 4 + 4 + 7 = **43**, all unique. "Snowflake"
 appears exactly once, under **Data Tools** only (spec Clarifications
 session 2026-07-25 — supersedes any earlier double-listing).
 
-## Certifications (FR-005) — exactly 6, in this order
+## Certifications (FR-005) — exactly 6, rendered most-recent-first by Acquired
 
-| Certification | Acquired |
-|---|---|
-| Databricks Certified Data Engineer Professional | 08/2025 |
-| Databricks Certified Data Engineer Associate | 06/2025 |
-| AWS Certified Data Engineer Associate | 09/2025 |
-| AWS Certified Cloud Practitioner | 04/2023 |
-| dbt Certified Developer | 04/2026 |
-| Databricks Certified Generative AI Engineer Associate | 06/2026 |
+| Issuer | Certification | Acquired |
+|---|---|---|
+| Databricks | Databricks Certified Data Engineer Professional | 08/2025 |
+| Databricks | Databricks Certified Data Engineer Associate | 06/2025 |
+| AWS | AWS Certified Data Engineer Associate | 09/2025 |
+| AWS | AWS Certified Cloud Practitioner | 04/2023 |
+| dbt | dbt Certified Developer | 04/2026 |
+| Databricks | Databricks Certified Generative AI Engineer Associate | 06/2026 |
+
+Display order is computed from `acquired` (descending) at render time, not
+from the underlying data array's insertion order.
 
 ## Education (FR-006) — exactly 2, rendered second sub-group of the combined Certifications/Education section
 

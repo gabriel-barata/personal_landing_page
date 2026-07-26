@@ -9,13 +9,13 @@ export const contactLinks: ContactLink[] = [
   {
     id: "email",
     label: "Email",
-    href: "mailto:hello@example.com",
+    href: "mailto:emanuel.barata.de@gmail.com",
     kind: "email",
   },
   {
     id: "linkedin",
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/example",
+    href: "https://www.linkedin.com/in/gabriel-barata/",
     kind: "linkedin",
   },
   {

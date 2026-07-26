@@ -1,7 +1,6 @@
 export interface TechStackItem {
   id: string;
   label: string;
-  iconId: string;
 }
 
 export interface TechStackCategory {
@@ -10,8 +9,8 @@ export interface TechStackCategory {
   items: TechStackItem[];
 }
 
-function item(id: string, label: string, iconId: string = id): TechStackItem {
-  return { id, label, iconId };
+function item(id: string, label: string): TechStackItem {
+  return { id, label };
 }
 
 // Content contract: contracts/content-data.md's Tech Stack table (FR-003).
