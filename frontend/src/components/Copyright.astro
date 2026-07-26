@@ -1,0 +1,29 @@
+---
+const year = new Date().getFullYear();
+---
+
+<div class="copyright">
+  <p>&copy; {year} Emanuel Barata</p>
+</div>
+
+<style>
+  /* Trailing, unnumbered copyright line (visual-direction decision 6 item 7).
+     Deliberately a plain div, not a second <footer> — ContactFooter.astro is
+     already the page's one <footer> landmark; a second would create a
+     competing contentinfo region. */
+  .copyright {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-24);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+    font-size: var(--font-size-5);
+    color: var(--color-support);
+  }
+
+  @media (max-width: 767px) {
+    .copyright {
+      padding: var(--space-16);
+    }
+  }
+</style>

@@ -10,6 +10,133 @@ several with revised decisions from a grill-me session that resolved every
 
 ## Revision history
 
+- **2026-07-26 (Certifications/Education split + closing copyright footer,
+  grill-me session):** two changes from a review of the chapter structure and
+  page ending. First, chapter `03` ("Education & Certifications," decision 19)
+  is split into two standalone chapters — **Certifications** (`03/04`) and
+  **Education & Projects** (`04/04`) — reordered as Certifications first,
+  Education & Projects second (unchanged from the prior combined chapter's
+  content order). Certifications drops its now-redundant "Certifications"
+  sub-heading (the chapter title already says it); its list starts directly
+  under the chapter heading/divider. Education & Projects keeps two equal
+  sub-sections styled with the existing category-label treatment: **College**
+  (unchanged content, renamed from "Education" in the prior restructure) and
+  a new **Projects** sub-section — entries are name + 1–2 sentence description
+  + a small tech-tag list, mirroring the tag styling already used for Tech
+  Stack items (decision 4). Project content is frontend placeholder data only
+  (`frontend/src/data/projects.ts`), per CLAUDE.md's existing placeholder-data
+  scope note for Experience — not wired to `resume.json`. All chapter numbers
+  update from `/03` to `/04` totals (Experience `01/04`, Tech Stack `02/04`).
+  Splitting into two chapters means decision 20's per-chapter full-viewport
+  `min-height` mechanism now applies to both individually — the page grows by
+  one additional full screen of scroll, an accepted trade-off of treating them
+  as two real chapters rather than one crowded one.
+
+  Second, a new trailing **copyright line** is added at the very end of the
+  page, after the existing Contact/footer section (decision 6 item 6, renamed
+  from item 5 to make room for the new Education & Projects chapter at item
+  5). Unlike Contact/footer, this is a thin strip with natural content height
+  only — no full-viewport treatment, no new "chapter." It reads `© {year}
+  Emanuel Barata`, year computed at build time, identical in both EN and PT
+  (no translation needed for a copyright notice). Styled per the page's
+  existing small-uppercase-label convention: 13px, `--color-support`, centered
+  within the 900px column, with a 1px `--color-border` hairline top rule
+  separating it from Contact/footer above — no new colors, no shadow, no
+  `border-radius` exception. Implemented as a separate component from
+  `ContactFooter.astro` (kept untouched) but deliberately *not* itself a
+  second `<footer>` landmark element (which would create two competing
+  `contentinfo` landmarks on the page) — a plain non-landmark wrapper instead.
+  This chapter/footer restructuring was implemented directly (no new
+  `specs/NNN-name` feature) since it's a content/structure change following
+  patterns this doc already establishes, not a new architectural decision.
+- **2026-07-26 (Experience panel retro reversal, grill-me session):** the
+  previous two same-day sessions (below) pushed the Experience detail panel
+  toward a *modern* terminal-window read — macOS traffic-light dots, a smooth
+  scale+fade open animation. On review this was judged the wrong direction
+  entirely: the panel's whole point is a **tech-but-old** feel (the reason
+  decisions 5's square-corners/no-shadow rules exist in the first place), and
+  a polished macOS-style window reads as the opposite of that. This session
+  reverses both amendments and replaces them with a Windows 3.1/95-flavored
+  treatment — bevel vocabulary and pixel icons borrowed, not a literal OS
+  dialog reconstruction (no fake minimize/maximize, no dotted focus rect).
+  Scoped narrowly to the panel's own controls (Details trigger, Contact-me
+  CTA, close button) — decision 11's flat outline/fill style is untouched
+  everywhere else on the page. Specifics: the close button reverts to a
+  single square button with a hand-built pixel-art X glyph (undoing both
+  macOS-dot amendments), moved to the title bar's **top-right** (the
+  Windows convention, now that nothing dictates a left-aligned control), with
+  the title text reverting to **left-aligned** — the earlier centering was
+  justified purely by the dots occupying the left slot, which no longer
+  applies. Decision 5's circular `border-radius` exception is rescinded;
+  the page returns to zero exceptions. The title bar itself now gets a solid
+  `--color-accent` fill with `--color-accent-ink` text (a new, deliberate
+  accent usage per decision 8/Principle 3), replacing the previous plain-base
+  background plus separate 3px accent top rule — the two are now the same
+  thing. The panel's own outer frame stays flat 1px hairline; the bevel is
+  reserved for interactive controls, not the whole window, so it still reads
+  as "this is clickable" rather than decorating the frame. Buttons (close,
+  Details, Contact me) get: a resting bevel face derived from existing
+  neutral tokens (`--bevel-face`/`--bevel-highlight`/`--bevel-shadow` in
+  `tokens.css`, reusing `--color-border`/`--color-base`/`--color-ink` rather
+  than adding new named colors — highlight/shadow swap which token they
+  point at per theme, since `--color-base` and `--color-ink` swap which
+  extreme is lighter between light and dark mode); an accent-tinted hover
+  (text and the top/left bevel edge shift to `--color-accent`, bevel shape
+  unchanged) so accent still signals interactivity site-wide; and a pressed
+  `:active` state that inverts the bevel edges and nudges the button 1px via
+  `transform: translate(1px, 1px)`, giving real click feedback the flat
+  decision-11 buttons don't have. The open animation drops the scale+fade
+  entirely (scale/transform is itself a modern-UI motion primitive) in favor
+  of an **opacity-only hard-step flicker** (`steps(4, end)`, 160ms, no easing
+  curve) — reads as a screen snapping on rather than a window animating in.
+  Close stays instant, as before. Everything else about decision 21 is
+  unaffected: fixed-height/internally-scrollable sizing, partial-coverage
+  depth cue (no scrim/shadow), single-panel-at-a-time, the fake command-line
+  echo, metadata/tasks/achievements structure, the centered "Contact me"
+  label, the blinking `> |` cursor, and mobile's full-width/vertical-depth
+  behavior.
+- **2026-07-26 (Terminal panel window chrome, grill-me session):** a follow-up
+  session after the previous terminal-panel amendment still didn't read as a
+  terminal *window* — the title bar had no window-manager furniture, and the
+  wipe-open animation read as generic content-reveal rather than "a window
+  opening." Decision 21 amended again: the pixel-art X close icon is replaced
+  with three small circular monochrome dots (macOS traffic-light convention),
+  top-left of the title bar — leftmost dot is the functional close control,
+  the other two purely decorative. Colors stay support-gray outline, not
+  literal red/yellow/green, to preserve the one-neutral-plus-one-accent
+  palette rule (decision 8); the accent-on-hover/focus treatment applies to
+  the functional dot like every other interactive control. The title text
+  moves from left-aligned to centered, matching the authentic convention now
+  that dots occupy the left slot. The opening animation is replaced entirely:
+  the prior `clip-path` wipe is swapped for a scale+fade (92%→100% scale,
+  0%→100% opacity, transform-origin top-center, same 200ms ease-out timing,
+  still open-only/reduced-motion-respecting) — closer to how real desktop
+  windows actually animate open. **New scoped exception to decision 5:** the
+  traffic-light dots are circular (`border-radius: 50%`), the first exception
+  to the page's blanket `border-radius: 0` rule (enforced globally in
+  `global.css` via `*, *::before, *::after`) — carved out narrowly for `.dot`
+  only, because the macOS window-chrome convention this evokes depends on
+  being round; squaring it off was considered and rejected as defeating the
+  point of the reference.
+- **2026-07-26 (Terminal panel motion + chrome, grill-me session):** decision
+  21 amended with a **narrow, scoped exception** to decision 10's near-zero-
+  motion rule — the only such exception on the page besides decision 3's
+  15px accent-text carve-out. The panel now gets: an opening "snap/wipe"
+  animation (a `clip-path` reveal, ~200ms ease-out, panel unfurls top-to-
+  bottom on open only — closing stays instant, per decision 21's original
+  precedent); an accent-teal top rule replacing the panel's plain hairline
+  top border, uniform across all entries (deliberately *not* reusing decision
+  7's current-vs-past-role accent semantic, to keep it a pure chrome cue, not
+  an information-bearing one); and a blinking `> |` cursor line (hard-step
+  opacity, ~530ms per phase, matching decision 5's hard-edged/no-gradients
+  aesthetic) placed after the achievements section as an idle "ready for
+  input" bookend to the existing `> cat experience/...` echo line at the top.
+  Both new animations respect `prefers-reduced-motion` (instant open, solid
+  non-blinking cursor). Also from this session: the contact button is
+  relabeled "Contact me" and recentered (auto-width, not full-bleed) within
+  the panel body, echoing decision 20's Contact/footer section being
+  centered as a "closing bookend" rather than top-aligned like the other
+  chapter sections.
 - **2026-07-26 (Experience detail panel, grill-me session):** new decision 21
   — each Experience entry (decision 7) gains a "Details" button that opens a
   terminal-styled, opaque, non-full-screen panel layered over the entry list,
@@ -341,6 +468,20 @@ ticks. 1px hairline borders using `--color-border`. No box-shadows anywhere.
 called out in the original doc; hairlines + squares read as "sober technical
 document," shadows read as "soft app UI."
 
+**Amended 2026-07-26 (terminal panel window chrome, grill-me session):** one
+scoped exception — decision 21's Experience detail panel gets three small
+circular "traffic-light" window-control dots, `border-radius: 50%`. The
+macOS terminal-window convention they evoke depends on being round; the
+alternative (squaring them off) was considered and rejected as defeating the
+point of using the reference at all. This is the only `border-radius`
+exception on the page.
+
+**Amended 2026-07-26 (Experience panel retro reversal, grill-me session):**
+the circular exception above is **rescinded**. The macOS traffic-light dots
+it existed for were themselves reverted (decision 21's close control is a
+square beveled button again, per the retro-reversal amendment) — the page
+returns to `border-radius: 0` with **zero exceptions**.
+
 ### 6. Page sections, in order
 
 1. **Hero** (decision 3)
@@ -348,12 +489,22 @@ document," shadows read as "soft app UI."
    each entry: role, company, dates (`tabular-nums`), 2–3 line impact summary
    max
 3. **Tech Stack** (decision 4)
-4. **Certifications / Education** — compact list, dates inline/right-aligned,
-   certification badges (decision 14)
-5. **Contact / footer** — repeats the contact CTA row from the hero
+4. **Certifications** — compact list, dates inline/right-aligned, certification
+   badges (decision 14)
+5. **Education & Projects** — two sub-sections, College then Projects
+6. **Contact / footer** — repeats the contact CTA row from the hero
+7. **Copyright line** — trailing, unnumbered, not a chapter (see below)
 
 Explicitly excluded: long "About me" narrative, blog/writing section,
 testimonials — anything risking a return to ai-2027.com's wall of text.
+
+**Amended 2026-07-26 (Certifications/Education split, grill-me session):**
+items 4–5 were originally one combined chapter, "Certifications / Education"
+(see decision 19's 2026-07-25 restructure amendment, and its 2026-07-26 split
+amendment below). Split into two standalone chapters, reordered as
+Certifications first, Education & Projects second — same content order as
+before. Item 7 (copyright line) is new, added after Contact/footer as an
+unnumbered trailing element, not a "chapter" in decision 19's sense.
 
 ### 7. Experience timeline: static vertical rail
 
@@ -405,6 +556,15 @@ item labels on hover (decision 4, pinned to 15px), and button/CTA labels
 
 Named `--color-accent` in CSS, not by hue, so it can still move in one line
 if needed later.
+
+**Amended 2026-07-26 (Experience panel retro reversal, grill-me session):** a
+new non-text accent usage — the Experience detail panel's title bar (decision
+21) is now a solid `--color-accent` fill, with `--color-accent-ink` text on
+top (the same base-colored-text-on-accent pairing decision 18 already
+established for button hover states). This is a bigger, more decorative
+accent surface than anywhere else on the page, but it's deliberate: it's the
+one place the page borrows a literal old-OS convention (a colored title-bar
+band), and the text-on-accent contrast pairing is already proven elsewhere.
 
 ### 9. Spacing scale
 
@@ -621,11 +781,10 @@ that idea was rejected because it would have required reopening decision 1
 only) and decision 10/decision 7 (near-zero motion, no scroll-triggered
 progress fill) with no compelling reason to override either.
 
-**Scope:** applies to the three real content chapters — Experience (`01`),
-Tech Stack (`02`), and **Education & Certifications** (`03`, one combined
-chapter per decision 6). Does **not** apply to the Contact/footer section,
-which stays an unnumbered CTA repeat with only a visually-hidden heading, as
-today.
+**Scope:** applies to the four real content chapters — Experience (`01`),
+Tech Stack (`02`), **Certifications** (`03`), and **Education & Projects**
+(`04`) — per decision 6. Does **not** apply to the Contact/footer section or
+the trailing copyright line, which stay unnumbered, as today.
 
 **Amended 2026-07-25 (Education & Certifications restructure):** the `03`
 chapter was originally titled "Certifications," with "Education" demoted to
@@ -641,7 +800,19 @@ Tech Stack's own category groups (Programming Languages, Cloud, etc.) are
 sub-headings within its single numbered chapter. Content order is unchanged
 (Certifications first, then College).
 
-**Chapter heading:** `<index>/<total>` (e.g. `01/03`) in **Silkscreen**
+**Amended 2026-07-26 (Certifications/Education split, grill-me session):**
+this restructure is itself superseded — the combined chapter is split back
+into two standalone chapters, **Certifications** (`03`) and **Education &
+Projects** (`04`), per decision 6's amendment above. Certifications drops its
+sub-heading (now redundant with the chapter title) and goes back to a plain
+list. Education & Projects keeps two equal sub-sections in the same
+category-label treatment: **College** (unchanged) and a new **Projects**
+sub-section. This isn't a reversal of the underlying complaint the 2026-07-25
+restructure fixed (Education reading as a lesser afterthought) — giving
+Education its own full chapter, paired with new Projects content, resolves
+that even more directly than a shared sub-heading did.
+
+**Chapter heading:** `<index>/<total>` (e.g. `01/04`) in **Silkscreen**
 (decision 17), support-gray, 24px — followed by a 1px vertical hairline rule,
 then the chapter title in **Space Grotesk medium, 24px, ink-colored, normal
 title case** (e.g. "Experience", not "EXPERIENCE"). This replaces the
@@ -685,22 +856,32 @@ persistent global chrome.
 
 Extends decision 3's hero-viewport mechanism to every section, closing the
 gap between Hero's "one full screen" feel and the thinner, document-like
-`--section-gap` transitions used for Experience/Tech Stack/Cert-Edu/Contact
-(decision 9). Motivated by wanting the whole page, not just the
-Hero→Experience transition, to read as "one section at a time" rather than
-several partial sections visible in the same view.
+`--section-gap` transitions used for Experience/Tech Stack/Certifications/
+Education & Projects/Contact (decision 9). Motivated by wanting the whole
+page, not just the Hero→Experience transition, to read as "one section at a
+time" rather than several partial sections visible in the same view.
 
 **Mechanism:** on desktop (≥768px) only, every section — Experience, Tech
-Stack, Certifications/Education, and Contact/footer — gets `min-height:
-calc(100vh - header-height)`, the same formula decision 3 already uses for
-Hero. Natural scroll only; no CSS scroll-snap. A section taller than one
-viewport simply grows past that floor (never clipped or independently
-scrollable) — the same fallback decision 3 already accepts for Hero.
+Stack, Certifications, Education & Projects, and Contact/footer — gets
+`min-height: calc(100vh - header-height)`, the same formula decision 3
+already uses for Hero. Natural scroll only; no CSS scroll-snap. A section
+taller than one viewport simply grows past that floor (never clipped or
+independently scrollable) — the same fallback decision 3 already accepts for
+Hero.
 
-**Alignment:** Experience, Tech Stack, and Certifications/Education stay
-top-aligned — the chapter heading (decision 19) sits right after the seam
-divider, and any leftover space when content is shorter than one viewport
-collects at the bottom of the section, before the next section's divider.
+**Amended 2026-07-26 (Certifications/Education split, grill-me session):**
+Certifications and Education & Projects were previously one combined section
+sharing a single viewport floor; now split into two standalone chapters
+(decision 6/19), each gets its own `min-height` under this mechanism — the
+page grows by one additional full screen of scroll on desktop. The trailing
+copyright line (decision 6 item 7) is explicitly **not** covered by this
+mechanism — natural height only, no viewport floor, since it isn't a chapter.
+
+**Alignment:** Experience, Tech Stack, Certifications, and Education &
+Projects stay top-aligned — the chapter heading (decision 19) sits right
+after the seam divider, and any leftover space when content is shorter than
+one viewport collects at the bottom of the section, before the next
+section's divider.
 This differs from Hero, which centers its content; these sections have a
 heading to anchor to, Hero doesn't. Contact/footer, however, is centered
 like Hero — with no chapter heading of its own, it functions as the page's
@@ -770,11 +951,37 @@ viewport, so the page (chapter heading above, and page content below when the
 panel is shorter than the remaining section) is visibly exposed around it.
 No scrim, no darkening of the page behind it.
 
-**Motion:** open/close is **instant** — no fade, slide, or scale transition.
-This follows decision 18's dark-mode-toggle precedent (an even bigger visual
+**Motion:** closing is **instant** — no fade, slide, or scale transition,
+following decision 18's dark-mode-toggle precedent (an even bigger visual
 change, deliberately kept instant rather than treated as a decision-10-style
-short-transition exception) rather than inventing a new motion allowance for
-this panel specifically.
+short-transition exception).
+
+**Amended 2026-07-26 (terminal panel motion + chrome, grill-me session):**
+*opening* the panel is no longer instant — a narrow, scoped exception to
+decision 10's near-zero-motion rule (the only such exception besides decision
+3's 15px accent-text carve-out). The panel unfurls top-to-bottom via a
+`clip-path` reveal, ~200ms ease-out, on open only; closing remains instant as
+originally specified above. This is deliberately asymmetric rather than a
+mirrored open/close transition, to keep the exception as narrow as possible
+and keep closing (X button or Escape) snappy when a user is moving between
+entries. Respects `prefers-reduced-motion: reduce` (falls back to instant
+open, matching the un-amended behavior). Chosen over a scanline-sweep or
+typewriter-reveal variant considered in the same session — those were judged
+bigger, more CRT-specific effects than the ask called for; a plain unfurl
+keeps the panel feeling like "a terminal window opening," not a themed
+set-piece.
+
+**Amended 2026-07-26 (terminal panel window chrome, grill-me session):** the
+`clip-path` wipe above didn't survive contact — a follow-up review judged it
+"generic content-reveal," not specifically terminal. Replaced with a
+**scale+fade**: the panel animates from 92% to 100% scale while fading 0% to
+100% opacity, `transform-origin: top center` (so it reads as dropping in from
+just below the chapter heading above it, consistent with decision 20's
+top-aligned section convention). Same 200ms ease-out timing, still open-only
+(close stays instant), still respects `prefers-reduced-motion: reduce`. This
+better mimics how real desktop windows actually animate open, and pairs with
+the new traffic-light chrome below to sell "a real window just opened" rather
+than "content sliding into view."
 
 **Chrome:** a **title bar** at the top, plain text `Role — Company` (no fake
 shell-prompt styling here — see body content below for where that idea
@@ -784,7 +991,86 @@ the Silkscreen typeface — that closes the panel. Decision 17's Silkscreen
 scope stays at exactly two uses (monogram, chapter numbers); this is a
 deliberate choice not to add a third.
 
-**Closing:** the X button or the **Escape key**. No click-outside-to-dismiss
+**Amended 2026-07-26 (terminal panel motion + chrome, grill-me session):** the
+panel's outer top border is now a 3px accent-teal rule, replacing the plain
+1px hairline top border used on the other three edges — a "terminal chrome"
+cue that the previous plain-hairline frame didn't carry. It's uniform across
+every entry's panel, deliberately *not* reusing decision 7's current-vs-past-
+role accent semantic (accent tick for the current role, gray outline for past
+ones) — this rule is chrome, not an information-bearing status signal, so
+tying it to recency would risk it being misread as one. The title bar's
+background and text color are unchanged (still `--color-base` / `--color-ink`
+respectively) — only the panel's own top edge changes.
+
+**Amended 2026-07-26 (terminal panel window chrome, grill-me session):** the
+pixel-art X icon is replaced with **three small circular dots**, top-left of
+the title bar (the macOS traffic-light convention) — the title bar previously
+had no window-manager furniture at all, which was judged the main reason the
+panel still didn't read as a terminal *window* rather than a styled content
+box. The leftmost dot is the **functional close control**; the other two are
+purely decorative (`aria-hidden`), since this panel has no minimize/maximize
+equivalent to map them to. All three are **monochrome, support-gray outline**
+— not literal red/yellow/green — to preserve decision 8's one-neutral-plus-
+one-accent palette rule; the functional dot gets the same accent-on-hover/
+focus treatment as every other interactive control on the page. With dots now
+occupying the title bar's left slot, the `Role — Company` title text moves
+from left-aligned to **centered**, matching the authentic convention.
+**New scoped exception to decision 5:** the dots are circular
+(`border-radius: 50%`), carved out of the page's blanket `border-radius: 0
+!important` rule (`global.css`, `*, *::before, *::after`) via an explicit
+`*:not(.dot)` exclusion — the only such exception on the page. Considered and
+rejected: squaring the dots off to keep decision 5 fully unbroken — this was
+judged to defeat the point of the reference, since roundness is exactly what
+makes the convention recognizable.
+
+**Amended 2026-07-26 (Experience panel retro reversal, grill-me session):**
+the two amendments directly above (dots, scale+fade open animation) are
+**reversed**. On review, the macOS-flavored polish they introduced was the
+wrong direction — the panel is supposed to read as **old** tech, not sleek
+modern tech, which is the entire reason decision 5 bans shadows/rounded
+corners in the first place. Replaced with a Windows 3.1/95-flavored
+treatment: bevel and pixel-icon vocabulary borrowed, not a literal OS dialog
+rebuild (no fake minimize/maximize, no dotted focus rectangle), and scoped
+only to this panel's own controls — decision 11 is untouched everywhere
+else on the page.
+
+- **Close control:** back to a single square button holding a hand-built
+  pixel-art X glyph (undoing the dots), now positioned **top-right** of the
+  title bar (the Windows convention) instead of top-left. The `Role —
+  Company` title text reverts to **left-aligned** — centering was only ever
+  justified by the dots occupying the left slot, which no longer applies.
+  Decision 5's circular exception above is rescinded; the page returns to
+  zero `border-radius` exceptions.
+- **Title bar fill:** the title bar background becomes a solid
+  `--color-accent` fill with `--color-accent-ink` text — a literal colored
+  title-bar band, the one place on the page borrowing that old-OS convention
+  directly (decision 8 amended accordingly). This replaces the previous
+  plain-base background *and* the separate 3px accent top rule from the
+  motion+chrome amendment above — the two are now the same edge.
+- **Buttons get a beveled 3D face:** the close control, the Details trigger,
+  and the Contact-me CTA all get a resting bevel — highlight/shadow edges
+  derived from the existing neutral ramp (`--bevel-highlight`/
+  `--bevel-shadow`/`--bevel-face` in `tokens.css`, mapped onto
+  `--color-base`/`--color-ink`/`--color-border` respectively, no new named
+  colors) — plus an accent-tinted hover (text and the top/left edge shift to
+  `--color-accent`, bevel shape unchanged, so accent still signals
+  interactivity per Principle 3) and a pressed `:active` state that inverts
+  the bevel and nudges the button 1px (`transform: translate(1px, 1px)`) for
+  tactile click feedback the flat decision-11 style doesn't have.
+- **Open motion:** the scale+fade is dropped — scale/transform is itself a
+  modern-UI motion primitive. Replaced with an **opacity-only hard-step
+  flicker** (`steps(4, end)`, 160ms, no easing curve), reading as a screen
+  snapping on rather than a window animating in. Close remains instant, as
+  before. Still respects `prefers-reduced-motion: reduce` (falls back to an
+  instant, fully-opaque open).
+- **Unaffected:** everything else in this decision — fixed-height/
+  internal-scroll sizing, partial-coverage depth cue, single-panel-at-a-time,
+  the fake command-line echo, metadata/tasks/achievements structure, the
+  centered "Contact me" label, the blinking `> |` cursor, decision 17's
+  Silkscreen scope (still capped at two uses), and mobile behavior.
+
+**Closing:** the close button (now top-right) or the **Escape key**. No
+click-outside-to-dismiss
 — the exposed page area around the panel is small enough that accidental
 outside clicks while interacting with the panel would too easily lose the
 user's place.
@@ -806,10 +1092,28 @@ user's place.
    label, reusing the sub-section label pattern from Tech Stack categories
    and decision 19's Education & Certifications restructure, rather than one
    undifferentiated bullet list.
-4. A **big contact button** — larger size only, same outline-at-rest /
-   filled-on-hover style as every other button on the page (decision 11 is
-   not broken for this one case) — triggers the same direct `mailto:` action
-   as the hero's email CTA (decision 3, item 6).
+4. **Added 2026-07-26 (terminal panel motion + chrome, grill-me session):** a
+   blinking cursor line, `> |`, sitting after the achievements section and
+   before the contact button. Reuses the `>` prompt prefix from item 1's echo
+   line, so the two lines bookend the terminal metaphor — a command typed in
+   at the top, an idle prompt waiting at the bottom. The `|` blinks via a
+   hard opacity step (not a smooth fade, matching decision 5's hard-edged/
+   no-gradients aesthetic), ~530ms per phase. Respects
+   `prefers-reduced-motion: reduce` — falls back to a solid, always-visible
+   `|`. This is part of the same narrow decision-10 exception as the panel's
+   open animation (see Motion, above) — no other page element blinks.
+5. A **big contact button**, relabeled **"Contact me"** and **centered**
+   (auto-width, not full-bleed) within the panel body — larger size only,
+   same outline-at-rest / filled-on-hover style as every other button on the
+   page (decision 11 is not broken for this one case) — triggers the same
+   direct `mailto:` action as the hero's email CTA (decision 3, item 6).
+   **Amended 2026-07-26 (terminal panel motion + chrome, grill-me session):**
+   originally left-aligned with the "Email" label inherited directly from
+   `contactLinks`; recentered and relabeled to read as a deliberate closing
+   CTA rather than just another left-aligned content block, echoing decision
+   20's Contact/footer section being centered as the page's own "closing
+   bookend." The label is a panel-local override, not a change to the shared
+   `contactLinks` data (the hero and footer contact rows keep "Email").
 
 **Mobile (<768px, decision 12):** the terminal concept is kept, adapted
 rather than replaced with a different pattern — the panel becomes full-width

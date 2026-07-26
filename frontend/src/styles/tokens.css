@@ -7,6 +7,15 @@
   --color-accent: #0f7c86;
   --color-accent-ink: var(--color-base); /* text color on a filled-accent background */
 
+  /* Retro bevel tokens — Experience detail panel only (visual-direction
+     decision 21, 2026-07-26 retro reversal). Reuses the existing 4-step
+     neutral ramp instead of introducing new colors: highlight/shadow swap
+     which token they point at per theme so the highlight is always the
+     lighter extreme and the shadow always the darker one. */
+  --bevel-face: var(--color-border);
+  --bevel-highlight: var(--color-base);
+  --bevel-shadow: var(--color-ink);
+
   /* Certification badge backing plate — always light, even in dark mode
      (visual-direction decision 18: real badges assume a light backing). */
   --color-badge-backing: #f6f8f8;
@@ -53,6 +62,12 @@
   --color-ink: #e8ebec;
   --color-accent: #4fa3ac;
   --color-accent-ink: var(--color-base);
+
+  /* Bevel highlight/shadow swap direction: --color-ink is the lightest
+     extreme in dark mode, --color-base the darkest — the opposite of light
+     mode, so the mapping flips here to keep the bevel physically correct. */
+  --bevel-highlight: var(--color-ink);
+  --bevel-shadow: var(--color-base);
 }
 
 @media (max-width: 767px) {

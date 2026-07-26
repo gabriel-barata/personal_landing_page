@@ -105,7 +105,10 @@ button {
   cursor: pointer;
 }
 
-/* No rounded corners, no shadows anywhere (visual-direction decision 5) */
+/* No rounded corners, no shadows anywhere, no exceptions (visual-direction
+   decision 5). The macOS-style traffic-light dots that previously carved out
+   a border-radius exception here were dropped in the 2026-07-26 retro
+   reversal of decision 21 — the panel's close control is square again. */
 *,
 *::before,
 *::after {
