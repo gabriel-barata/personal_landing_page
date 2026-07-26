@@ -100,6 +100,15 @@ import I18nText from "./I18nText.astro";
     max-width: 65ch;
   }
 
+  /* One section per screen on desktop (visual-direction decision 20) —
+     same min-height formula as Hero (decision 3); content stays top-aligned,
+     leftover space collects below the timeline. */
+  @media (min-width: 768px) {
+    .experience {
+      min-height: calc(100vh - var(--header-height));
+    }
+  }
+
   .role-line {
     color: var(--color-ink);
   }
