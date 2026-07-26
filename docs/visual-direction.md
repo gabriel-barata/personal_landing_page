@@ -10,6 +10,25 @@ several with revised decisions from a grill-me session that resolved every
 
 ## Revision history
 
+- **2026-07-26 (Terminal panel motion + chrome, grill-me session):** decision
+  21 amended with a **narrow, scoped exception** to decision 10's near-zero-
+  motion rule — the only such exception on the page besides decision 3's
+  15px accent-text carve-out. The panel now gets: an opening "snap/wipe"
+  animation (a `clip-path` reveal, ~200ms ease-out, panel unfurls top-to-
+  bottom on open only — closing stays instant, per decision 21's original
+  precedent); an accent-teal top rule replacing the panel's plain hairline
+  top border, uniform across all entries (deliberately *not* reusing decision
+  7's current-vs-past-role accent semantic, to keep it a pure chrome cue, not
+  an information-bearing one); and a blinking `> |` cursor line (hard-step
+  opacity, ~530ms per phase, matching decision 5's hard-edged/no-gradients
+  aesthetic) placed after the achievements section as an idle "ready for
+  input" bookend to the existing `> cat experience/...` echo line at the top.
+  Both new animations respect `prefers-reduced-motion` (instant open, solid
+  non-blinking cursor). Also from this session: the contact button is
+  relabeled "Contact me" and recentered (auto-width, not full-bleed) within
+  the panel body, echoing decision 20's Contact/footer section being
+  centered as a "closing bookend" rather than top-aligned like the other
+  chapter sections.
 - **2026-07-26 (Experience detail panel, grill-me session):** new decision 21
   — each Experience entry (decision 7) gains a "Details" button that opens a
   terminal-styled, opaque, non-full-screen panel layered over the entry list,
@@ -770,11 +789,25 @@ viewport, so the page (chapter heading above, and page content below when the
 panel is shorter than the remaining section) is visibly exposed around it.
 No scrim, no darkening of the page behind it.
 
-**Motion:** open/close is **instant** — no fade, slide, or scale transition.
-This follows decision 18's dark-mode-toggle precedent (an even bigger visual
+**Motion:** closing is **instant** — no fade, slide, or scale transition,
+following decision 18's dark-mode-toggle precedent (an even bigger visual
 change, deliberately kept instant rather than treated as a decision-10-style
-short-transition exception) rather than inventing a new motion allowance for
-this panel specifically.
+short-transition exception).
+
+**Amended 2026-07-26 (terminal panel motion + chrome, grill-me session):**
+*opening* the panel is no longer instant — a narrow, scoped exception to
+decision 10's near-zero-motion rule (the only such exception besides decision
+3's 15px accent-text carve-out). The panel unfurls top-to-bottom via a
+`clip-path` reveal, ~200ms ease-out, on open only; closing remains instant as
+originally specified above. This is deliberately asymmetric rather than a
+mirrored open/close transition, to keep the exception as narrow as possible
+and keep closing (X button or Escape) snappy when a user is moving between
+entries. Respects `prefers-reduced-motion: reduce` (falls back to instant
+open, matching the un-amended behavior). Chosen over a scanline-sweep or
+typewriter-reveal variant considered in the same session — those were judged
+bigger, more CRT-specific effects than the ask called for; a plain unfurl
+keeps the panel feeling like "a terminal window opening," not a themed
+set-piece.
 
 **Chrome:** a **title bar** at the top, plain text `Role — Company` (no fake
 shell-prompt styling here — see body content below for where that idea
@@ -783,6 +816,17 @@ title bar carries a small **pixel-art X icon** — a hand-built SVG glyph, not
 the Silkscreen typeface — that closes the panel. Decision 17's Silkscreen
 scope stays at exactly two uses (monogram, chapter numbers); this is a
 deliberate choice not to add a third.
+
+**Amended 2026-07-26 (terminal panel motion + chrome, grill-me session):** the
+panel's outer top border is now a 3px accent-teal rule, replacing the plain
+1px hairline top border used on the other three edges — a "terminal chrome"
+cue that the previous plain-hairline frame didn't carry. It's uniform across
+every entry's panel, deliberately *not* reusing decision 7's current-vs-past-
+role accent semantic (accent tick for the current role, gray outline for past
+ones) — this rule is chrome, not an information-bearing status signal, so
+tying it to recency would risk it being misread as one. The title bar's
+background and text color are unchanged (still `--color-base` / `--color-ink`
+respectively) — only the panel's own top edge changes.
 
 **Closing:** the X button or the **Escape key**. No click-outside-to-dismiss
 — the exposed page area around the panel is small enough that accidental
@@ -806,10 +850,28 @@ user's place.
    label, reusing the sub-section label pattern from Tech Stack categories
    and decision 19's Education & Certifications restructure, rather than one
    undifferentiated bullet list.
-4. A **big contact button** — larger size only, same outline-at-rest /
-   filled-on-hover style as every other button on the page (decision 11 is
-   not broken for this one case) — triggers the same direct `mailto:` action
-   as the hero's email CTA (decision 3, item 6).
+4. **Added 2026-07-26 (terminal panel motion + chrome, grill-me session):** a
+   blinking cursor line, `> |`, sitting after the achievements section and
+   before the contact button. Reuses the `>` prompt prefix from item 1's echo
+   line, so the two lines bookend the terminal metaphor — a command typed in
+   at the top, an idle prompt waiting at the bottom. The `|` blinks via a
+   hard opacity step (not a smooth fade, matching decision 5's hard-edged/
+   no-gradients aesthetic), ~530ms per phase. Respects
+   `prefers-reduced-motion: reduce` — falls back to a solid, always-visible
+   `|`. This is part of the same narrow decision-10 exception as the panel's
+   open animation (see Motion, above) — no other page element blinks.
+5. A **big contact button**, relabeled **"Contact me"** and **centered**
+   (auto-width, not full-bleed) within the panel body — larger size only,
+   same outline-at-rest / filled-on-hover style as every other button on the
+   page (decision 11 is not broken for this one case) — triggers the same
+   direct `mailto:` action as the hero's email CTA (decision 3, item 6).
+   **Amended 2026-07-26 (terminal panel motion + chrome, grill-me session):**
+   originally left-aligned with the "Email" label inherited directly from
+   `contactLinks`; recentered and relabeled to read as a deliberate closing
+   CTA rather than just another left-aligned content block, echoing decision
+   20's Contact/footer section being centered as the page's own "closing
+   bookend." The label is a panel-local override, not a change to the shared
+   `contactLinks` data (the hero and footer contact rows keep "Email").
 
 **Mobile (<768px, decision 12):** the terminal concept is kept, adapted
 rather than replaced with a different pattern — the panel becomes full-width

@@ -67,7 +67,9 @@ const emailLink = contactLinks.find((link) => link.kind === "email")!;
       </ul>
     </section>
 
-    <a class="contact-cta" href={emailLink.href}>{emailLink.label}</a>
+    <p class="cursor-line" aria-hidden="true">{"> "}<span class="cursor">|</span></p>
+
+    <a class="contact-cta" href={emailLink.href}>Contact me</a>
   </div>
 </div>
 
@@ -80,11 +82,28 @@ const emailLink = contactLinks.find((link) => link.kind === "email")!;
     flex-direction: column;
     background: var(--color-base);
     border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-accent);
     font-family: "Space Mono", ui-monospace, monospace;
+    animation: panel-open 200ms ease-out;
   }
 
   .panel[hidden] {
     display: none;
+  }
+
+  @keyframes panel-open {
+    from {
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel {
+      animation: none;
+    }
   }
 
   .title-bar {
@@ -183,9 +202,37 @@ const emailLink = contactLinks.find((link) => link.kind === "email")!;
     color: var(--color-accent);
   }
 
+  .cursor-line {
+    color: var(--color-support);
+    font-size: var(--font-size-4);
+  }
+
+  .cursor {
+    color: var(--color-ink);
+    animation: cursor-blink 1060ms linear infinite;
+  }
+
+  @keyframes cursor-blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    50.01%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
   .contact-cta {
     display: block;
-    align-self: flex-start;
+    align-self: center;
     border: 1px solid var(--color-accent);
     color: var(--color-accent);
     background: transparent;
